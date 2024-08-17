@@ -18,6 +18,6 @@ services:
       dockerfile: docker/node/Dockerfile
     volumes:
       - ./frontend_Project/node/frontend:/usr/src/app/frontend
-    command: sh -c "cd /usr/src/app/frontend"
+    command: sh -c "cd /usr/src/app/frontend && npm install"
     ports:
       - "3000:3000"
