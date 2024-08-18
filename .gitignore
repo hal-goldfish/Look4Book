@@ -3,5 +3,3 @@ backend_Project/backend/backend/__pycache__/
 backend_Project/backend/db.sqlite3
 backend_Project/backend/images/*.jpg
 node_modules/
-package-lock.json
-package.json
