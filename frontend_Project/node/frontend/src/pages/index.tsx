@@ -4,8 +4,7 @@ export const Top = () => {
     return (
         <div>
             <p>トップページです</p>
-            <p><a href="/TempView">TempView</a></p>
-            <p><a href="/TempView2">TempView2</a></p>
+            <p><a href="/SignIn">サインインはこちら</a></p>
         </div>
     );
 };
