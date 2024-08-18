@@ -2,8 +2,6 @@ from api.models import User, Book
 
 import os
 import requests
-from io import BytesIO
-from django.core.files.base import ContentFile
 
 
 def get_and_save_data(isbn, user_id):
