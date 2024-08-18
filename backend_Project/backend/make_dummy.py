@@ -1,0 +1,48 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+import django
+django.setup()
+
+from api.models import User, Book, get_and_save_data
+from faker import Faker
+import random
+
+
+
+def main():
+
+	# ユーザ
+	for i in range(10):
+		fake = Faker()
+		user = User(name = fake.name(), email = fake.email())
+		user.save()
+
+
+	# 本
+	i = 0
+	while i < 10:
+		isbn = "9784"
+		odd = 17
+		even = 11
+		for j in range(8):
+			a = random.randint(0,9)
+			isbn = isbn + str(a)
+			if j % 2 == 0:
+				odd += a
+			else:
+				even += a
+		
+		lastNum = (10 - (odd + even*3) % 10) % 10
+		isbn += str(lastNum)
+
+		print(isbn)
+
+		if get_and_save_data(isbn, user_id=1) == True:
+			i += 1
+
+		
+
+
+
+if __name__ == "__main__":
+	main()
