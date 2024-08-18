@@ -3,22 +3,15 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 import django
 django.setup()
 
-from api.models import User, Book, get_and_save_data
-from faker import Faker
+from api.models import Book, User
+from api.get_data import get_and_save_data
 import random
 
 
 
 def main():
 
-	# ユーザ
-	for i in range(10):
-		fake = Faker()
-		user = User(name = fake.name(), email = fake.email())
-		user.save()
-
-
-	# 本
+	# id=1 のユーザに本を10冊追加
 	i = 0
 	while i < 10:
 		isbn = "9784"
@@ -41,7 +34,6 @@ def main():
 			i += 1
 
 		
-
 
 
 if __name__ == "__main__":
