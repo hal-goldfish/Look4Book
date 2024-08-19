@@ -3,6 +3,9 @@ from api.models import User, Book
 import os
 import requests
 
+from openai import OpenAI
+client = OpenAI()
+
 
 def get_and_save_data(isbn, user_id):
 	url = "https://ndlsearch.ndl.go.jp/api/sru?operation=searchRetrieve&query=isbn%3d\"" + isbn + "\""
@@ -11,6 +14,7 @@ def get_and_save_data(isbn, user_id):
 
 	if text.find("Record does not exist") != -1:
 		return False
+
 	
 	# タイトル
 	idx = text.find("title")+9
@@ -19,6 +23,7 @@ def get_and_save_data(isbn, user_id):
 		if text[idx+i] == '&':
 			break
 		title += text[idx+i]
+  
 	
 	# 著者
 	idx = text.find("creator")
@@ -31,6 +36,7 @@ def get_and_save_data(isbn, user_id):
 			if text[idx+i] == '&':
 				break
 			author += text[idx+i]
+   
 
 	# 出版社
 	idx = text.find("publisher")+13
@@ -39,6 +45,7 @@ def get_and_save_data(isbn, user_id):
 		if text[idx+i] == '&':
 			break
 		publisher += text[idx+i]
+  
 
 
 	book = Book(ISBN = isbn,

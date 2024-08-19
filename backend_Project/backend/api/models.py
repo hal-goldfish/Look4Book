@@ -5,6 +5,32 @@ from django.utils import timezone
 
 # Create your models here.
 
+class Categories:
+	categories = [
+			"文学・評論",
+			"ノンフィクション",
+			"ビジネス・経済",
+			"歴史・地理",
+			"政治・社会",
+			"芸能・エンターテインメント",
+			"アート・建築・デザイン",
+			"人文・思想・宗教",
+			"暮らし・健康・料理",
+			"サイエンス・テクノロジー",
+			"趣味・実用",
+			"教育・自己啓発",
+			"スポーツ・アウトドア",
+			"事典・年鑑・本・ことば",
+			"音楽",
+			"旅行・紀行",
+			"絵本・児童書",
+			"コミックス",
+		]
+ 
+ 
+
+
+
 class Book(models.Model):
 	ISBN = models.CharField(max_length=13)
 	title = models.CharField(max_length=50, null=True)
@@ -12,7 +38,8 @@ class Book(models.Model):
 	publisher = models.CharField(max_length=20, null=True)
 	overview = models.TextField(null=True)
 	book_cover = models.ImageField(upload_to = 'images/', null=True)
-
+	category = models.CharField(max_length=20, null=True)
+    
 	def __str__(self):
 		return self.title
 
@@ -27,10 +54,6 @@ class User(models.Model):
 
 	def __str__(self):
 		return self.name
-
-
-
-
 
 
 # def in_30_days():
