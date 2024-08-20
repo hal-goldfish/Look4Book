@@ -73,12 +73,19 @@ def get_and_save_data(isbn, user_id):
 	print(user_content)
 	print(completion.choices[0].message)
 
+	category = completion.choices[0].message.content
+	category_id = 0
+	if category in Categories.id:
+		category_id = Categories.id[category]
+	else:
+		category_id = -1                    # カテゴリが不明な場合
+
 
 	book = Book(ISBN = isbn,
 		title = title,
 		author = author,
 		publisher = publisher, 
-		category = completion.choices[0].message.content)
+		category_id = category_id)
 	
 	book.save()
 

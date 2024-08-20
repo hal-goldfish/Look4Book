@@ -29,10 +29,7 @@ class LoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError('ログイン失敗')
             
 
-
-
-
 class BookSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Book
-		fields = ['id', 'ISBN', 'title', 'author', 'publisher']
+		fields = ['id', 'ISBN', 'title', 'author', 'publisher', 'category_id']

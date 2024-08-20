@@ -57,7 +57,7 @@ class Book(models.Model):
 	publisher = models.CharField(max_length=20, null=True)
 	overview = models.TextField(null=True)
 	book_cover = models.ImageField(upload_to = 'images/', null=True)
-	category = models.CharField(max_length=20, null=True)
+	category_id = models.IntegerField(null = True)
     
 	def __str__(self):
 		return self.title
