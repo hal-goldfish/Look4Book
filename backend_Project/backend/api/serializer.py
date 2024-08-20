@@ -1,6 +1,6 @@
 from rest_framework import serializers
-
-from .models import User, Book
+from django.db import models
+from .models import User, Book, User_Book
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -33,3 +33,11 @@ class BookSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Book
 		fields = ['id', 'ISBN', 'title', 'author', 'publisher', 'category_id']
+            
+
+class User_BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Book
+        fields = ['id', 'ISBN', 'title', 'author', 'publisher', 'category_id', 'state', 'regist_date', '_user_id', '_book_id']
+        
+        

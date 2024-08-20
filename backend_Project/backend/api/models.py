@@ -64,16 +64,38 @@ class Book(models.Model):
 
 
 
-
-
 class User(models.Model):
 	name = models.CharField(max_length=20, unique=True)
 	password = models.CharField(max_length=20, default="password")
-	books = models.ManyToManyField(Book)
+	books = models.ManyToManyField(Book, through="User_Book")
 
 	def __str__(self):
 		return self.name
+     
 
+# よくわかんなかったので Book と同じ内容を保存しているが、絶対にやめた方が良い。
+class User_Book(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    
+    _user_id = models.IntegerField()
+    _book_id = models.IntegerField()
+    
+    state = models.IntegerField(default=0)
+    regist_date = models.DateTimeField()
+    
+    ISBN = models.CharField(max_length=13)
+    title = models.CharField(max_length=50, null=True)
+    author = models.CharField(max_length=20, null=True)
+    publisher = models.CharField(max_length=20, null=True)
+    overview = models.TextField(null=True)
+    book_cover = models.ImageField(upload_to = 'images/', null=True)
+    category_id = models.IntegerField(null = True)
+    
+    def __str__(self):
+        return self.user.name + " : " + self.title
+
+     
 
 # def in_30_days():
 #     return timezone.now() + timedelta(days=30)

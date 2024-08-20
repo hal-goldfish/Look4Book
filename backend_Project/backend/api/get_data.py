@@ -1,5 +1,7 @@
-from api.models import User, Book, Categories
+from api.models import User, Book, User_Book, Categories
 import requests
+from django.utils import timezone
+from django.utils.timezone import localtime
 
 
 def get_and_save_data(isbn, user_id):
@@ -101,12 +103,26 @@ def get_and_save_data(isbn, user_id):
 			file.write(response.content)
 		book.book_cover = path
 
-
 	book.save()
 
 	user = User.objects.get(id=user_id)
-	print(type(user))
-	user.books.add(book)
+
+	user_book = User_Book(
+		user = user,
+		book = book,
+		_user_id = user.id,
+		_book_id = book.id,
+		state = 0,
+		regist_date = localtime(timezone.now()),
+		ISBN = book.ISBN,
+		title = book.title,
+		author = book.author,
+		publisher = book.publisher,
+		overview = book.overview,
+		book_cover = book.book_cover,
+		category_id = book.category_id,
+	)
+	user_book.save()
 
 	return True
 
