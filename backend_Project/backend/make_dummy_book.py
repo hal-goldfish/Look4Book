@@ -3,7 +3,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 import django
 django.setup()
 
-from api.models import Book, User
 from api.get_data import get_and_save_data
 import random
 

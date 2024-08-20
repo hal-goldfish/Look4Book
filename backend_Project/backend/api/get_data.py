@@ -1,10 +1,5 @@
-from api.models import User, Book
-
-import os
+from api.models import User, Book, Categories
 import requests
-
-from openai import OpenAI
-client = OpenAI()
 
 
 def get_and_save_data(isbn, user_id):
@@ -45,13 +40,45 @@ def get_and_save_data(isbn, user_id):
 		if text[idx+i] == '&':
 			break
 		publisher += text[idx+i]
-  
+
+
+	# ジャンル
+	from openai import OpenAI
+	client = OpenAI()
+
+	system_content = """
+	# Response format
+	以下の選択肢から1つ選んで回答してください。 """
+	for c in Categories.categories:
+		system_content += c + " | "
+	
+	user_content = ""
+	user_content += "『" + title + "』" + "(" + author + " " + publisher + ")" + "のジャンルは何ですか？"
+
+	completion = client.chat.completions.create(
+		model="gpt-4o-mini",
+		messages=[
+			{
+				"role": "system", 
+				"content": system_content
+			},
+			{
+				"role": "user",
+				"content": user_content
+			}
+		]
+	)
+
+	print(system_content)
+	print(user_content)
+	print(completion.choices[0].message)
 
 
 	book = Book(ISBN = isbn,
 		title = title,
 		author = author,
-		publisher = publisher, )
+		publisher = publisher, 
+		category = completion.choices[0].message.content)
 	
 	book.save()
 
@@ -61,6 +88,7 @@ def get_and_save_data(isbn, user_id):
 
 	response = requests.get(url_image)
 	if response.headers['Content-Type'] == "image/jpeg": # 書影がある
+		import os
 		path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/images/" + str(book.id) + ".jpg"
 		with open(path, 'wb') as file:
 			file.write(response.content)
