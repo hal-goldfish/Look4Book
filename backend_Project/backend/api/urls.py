@@ -2,7 +2,7 @@
 
 from . import views
 
-from .views import all_book_list, user_book_list, book_detail, all_user_list, user_detail
+from .views import book, book_list, book_get, book_detail, book_edit, book_regist, user
 from django.urls import path, include
 from django.contrib.staticfiles.urls import static
 from django.conf import settings
@@ -10,11 +10,13 @@ from django.conf import settings
 
 
 urlpatterns = [
-	path('book/', all_book_list),
-	path('book/<int:book_id>/', book_detail),
-	path('user/', all_user_list),
-	path('user/<int:user_id>/', user_detail),
-	path('user/<int:user_id>/books/', user_book_list),
+	path('book/', book),
+	path('book/list', book_list),
+	path('book/get/', book_get),
+	path('book/detail/', book_detail),
+	path('book/edit/', book_edit),
+	path('book/regist/', book_regist),
+	path('user/', user),
 	path('signup/', views.RegisterView.as_view(), name='user-signup'),
 	path('login/', views.LoginView.as_view(), name='user-login'),
 ]

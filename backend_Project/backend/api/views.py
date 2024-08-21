@@ -4,8 +4,10 @@
 from .models import User, Book, User_Book, AccessToken
 from .serializer import UserSerializer, BookSerializer, LoginSerializer, User_BookSerializer
 
+from .get_data import get_and_save_data, only_get_data
+
 from django.http import HttpResponse, JsonResponse
-# from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
@@ -13,52 +15,96 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 
-
-def all_book_list(request):
+def book(request):
 	if request.method == 'GET':
+		books = Book.objects.all()
 		if "category_id" in request.GET:
-			books = Book.objects.filter(category_id = request.GET.get("category_id"))
-		else:
-			books = Book.objects.all()
-		serializer = BookSerializer(books, many=True)
-		return JsonResponse(serializer.data, safe=False)
-	
+			books = books.filter(category_id = request.GET.get("category_id"))
+		if "sort_by" in request.GET:
+			books = books.order_by(request.GET.get("sort_by"))
+		return JsonResponse(BookSerializer(books, many=True).data, safe = False)
 
-def book_detail(request, book_id):
+
+def book_list(request):
 	if request.method == 'GET':
 		if "user_id" in request.GET:
-			user_book = User_Book.objects.get(_book_id = book_id, _user_id = request.GET.get("user_id"))
-			user_book_serializer = User_BookSerializer(user_book)
-			return JsonResponse(user_book_serializer.data, safe=False)
-		else :
-			book = Book.objects.get(id = book_id)
-			return JsonResponse(BookSerializer(book).data, safe=False)
-	
-
-def all_user_list(request):
-	if request.method == 'GET':
-		users = User.objects.all()
-		serializer = UserSerializer(users, many=True)
-		return JsonResponse(serializer.data, safe=False)
-	
-
-def user_detail(request, user_id):
-	if request.method == 'GET':
-		user = User.objects.get(id = user_id)
-		return JsonResponse(UserSerializer(user).data, safe=False)
-
-
-def user_book_list(request, user_id):
-	if request.method == 'GET':
-		if "category_id" in request.GET:
-			user = User.objects.get(id = user_id)
-			books = user.books.filter(category_id = request.GET.get("category_id"))
-			return JsonResponse(BookSerializer(books, many=True).data, safe=False)
+			books = User_Book.objects.filter(_user_id = request.GET.get("user_id"))
 		else:
-			user = User.objects.get(id=user_id)
-			books = user.books.all()
-			return JsonResponse(BookSerializer(books, many=True).data, safe=False)
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if "category_id" in request.GET:
+			books = books.filter(category_id = request.GET.get("category_id"))
+		if "sort_by" in request.GET:
+			books = books.order_by(request.GET.get("sort_by"))
+		return JsonResponse(User_BookSerializer(books, many=True).data, safe = False)
 
+
+def book_get(request):
+	if request.method == 'GET':
+		if "ISBN" in request.GET:
+			if Book.objects.filter(ISBN = request.GET.get("ISBN")).exists():
+				book = Book.objects.get(ISBN = request.GET.get("ISBN"))
+				return JsonResponse(BookSerializer(book).data, safe = False)
+			else:
+				res = only_get_data(request.GET.get("ISBN"))
+				if res == False:
+					return JsonResponse({"is_success": "false", "status": "not exist ISBN"})
+				else: 
+					return JsonResponse(res)
+		else:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		
+
+def book_detail(request):
+	if request.method == 'GET':
+		if not ("user_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not ("book_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
+		return JsonResponse(User_BookSerializer(book).data, safe = False)
+	
+	
+# @csrf_exempt
+def book_edit(request):
+	if request.method == 'POST':
+		if not ("user_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not ("book_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		
+		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
+		if "state" in request.POST:
+			book.state = request.POST.get("state")
+			book.save()
+		return JsonResponse({"is_success": "true"})
+
+
+def book_regist(request):
+	if request.method == 'GET':
+		if not ("user_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not ("ISBN" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		
+		if get_and_save_data(request.GET.get("ISBN"), request.GET.get("user_id")):
+			book = User_Book.objects.get(_user_id = request.GET.get("user_id"), ISBN = request.GET.get("ISBN"))
+		else:
+			return JsonResponse({"is_success": "false", "status": "something wrong"})
+		return JsonResponse({"is_success": "true", "book_id": book._book_id})
+		
+
+	
+
+def user(request):
+	if request.method == 'GET':
+		if "user_id" in request.GET:
+			user = User.objects.get(user_id = request.GET.get("user_id"))
+			return JsonResponse(UserSerializer(user).data, safe = False)
+		else:
+			users = User.objects.all()
+			serializer = UserSerializer(users, many=True)
+			return JsonResponse(serializer.data, safe=False)
+	
 
 
 
@@ -70,9 +116,6 @@ class RegisterView(APIView):
         print(request.data)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # パスワードと確認パスワードが一致しない場合
-            if serializer.validated_data['password'] != request.data['password_confirmation']:
-                return Response({'error': 2}, status=400)
 
             # UserIDがすでに使われていた場合
             if User.objects.filter(name=serializer.validated_data['name']).exists():
