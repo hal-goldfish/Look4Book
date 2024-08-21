@@ -11,7 +11,7 @@ export async function getUser(userId: number): Promise<User | null> {
         return {
             id: userId,
             name: String(res.data['name']),
-            role: 'user',
+            role: String(res.data['role']),
         };
     }else{
         return null;

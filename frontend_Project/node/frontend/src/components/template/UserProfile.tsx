@@ -22,7 +22,7 @@ export const UserProfile = () => {
                     </HStack>
                     <HStack>
                         <Text>ランク</Text>
-                        <Text>{user?.role === 'user' ? '一般読書家' : 'その他'}</Text>
+                        <Text>{user?.role}</Text>
                     </HStack>
                 </VStack>
             </Box>
