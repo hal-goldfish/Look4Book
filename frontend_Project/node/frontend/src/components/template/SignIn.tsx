@@ -3,7 +3,7 @@ import { useAuthUserContext } from "../../providers/AuthUser";
 import { useRouter } from "next/router";
 import { User } from "../../types/User";
 import axios from "axios";
-import { GET_USER_LIST } from "../../consts/API";
+import { GET_USER } from "../../consts/API";
 import { login } from "../../functions/login";
 import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
 import { SIGN_UP, USER_PROFILE } from "../../consts/PAGE";
@@ -17,7 +17,7 @@ export const SignIn = () => {
     const router = useRouter();
 
     const getUsers = async () => {
-        const res = await axios.get(GET_USER_LIST);
+        const res = await axios.get(GET_USER);
         setUserList(res.data.map((user) => new String(user['name'])));
     };
 

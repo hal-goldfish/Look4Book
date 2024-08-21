@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon, MoonIcon, QuestionOutlineIcon, SettingsIcon } from "@chakra-ui/icons";
+import { ArrowLeftIcon, ArrowRightIcon, CopyIcon, MoonIcon, QuestionOutlineIcon, SettingsIcon } from "@chakra-ui/icons";
 import { Box, Button, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
@@ -21,6 +21,7 @@ export const SideMenuButton = ({
                     : iconType==='signin' ? <ArrowRightIcon color={color}/>
                     : iconType==='signout' ? <ArrowLeftIcon color={color}/>
                     : iconType==='userprofile' ? <SettingsIcon color={color}/>
+                    : iconType==='books' ? <CopyIcon color={color}/>
                     : <QuestionOutlineIcon color={color}/>
     const onClick = () => {
         router.push(url);

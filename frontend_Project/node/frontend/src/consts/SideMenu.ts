@@ -1,7 +1,6 @@
 import { SideMenuButtonProps } from "../components/molecules/SideMenuButton";
-import { SIGN_IN, SIGN_OUT, TOP_PAGE, USER_PROFILE } from "./PAGE";
-import { useRouter } from "next/router";
-import { useAuthUserContext } from "../providers/AuthUser";
+import Books from "../pages/Books";
+import { BOOKS, SIGN_IN, SIGN_OUT, TOP_PAGE, USER_PROFILE } from "./PAGE";
 
 export const SIDE_TOP_BUTTON: SideMenuButtonProps = {
     iconType: 'top',
@@ -27,14 +26,22 @@ export const SIDE_PROFILE_BUTTON: SideMenuButtonProps = {
     url: USER_PROFILE,
 };
 
+export const SIDE_BOOKS_BUTTON: SideMenuButtonProps = {
+    iconType: 'books',
+    label: '本棚',
+    url: BOOKS,
+}
+
 export const menuListWhenSignIn: SideMenuButtonProps[] = [
     SIDE_TOP_BUTTON,
     SIDE_SIGNOUT_BUTTON,
     SIDE_PROFILE_BUTTON,
+    SIDE_BOOKS_BUTTON,
 ]
 
 export const menuListWhenSignOut: SideMenuButtonProps[] = [
     SIDE_TOP_BUTTON,
     SIDE_SIGNIN_BUTTON,
     SIDE_PROFILE_BUTTON,
+    SIDE_BOOKS_BUTTON,
 ]
