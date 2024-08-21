@@ -1,9 +1,13 @@
 import React from "react";
 import {SignUp as SignUpTemplate } from "../components/template/SignUp";
+import { Header } from "../components/orgnism/Header";
 
 export const SignUp = () => {
     return (
-        <SignUpTemplate></SignUpTemplate>
+        <>
+            <Header subText='サインアップ' />
+            <SignUpTemplate></SignUpTemplate>
+        </>
     );
 };
 
