@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "../types/User";
 
 export type AuthUserContextType = {
@@ -26,7 +26,7 @@ export const AuthUserProvider = (props: Props) => {
     const [user, setUser] = useState<User|null>(null);
     const [token, setToken] = React.useState<String | null>(null);
 
-    useLayoutEffect(()=>{
+    useEffect(()=>{
         const savedUserId = localStorage.getItem('userId');
         // TODO: userIdからUser情報を取得する
         const savedUserName = localStorage.getItem('userName');
