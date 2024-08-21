@@ -67,7 +67,8 @@ class Book(models.Model):
 class User(models.Model):
 	name = models.CharField(max_length=20, unique=True)
 	password = models.CharField(max_length=20, default="password")
-	books = models.ManyToManyField(Book, through="User_Book")
+	books = models.ManyToManyField(Book)
+	role = models.CharField(max_length = 20, default="user")
 
 	def __str__(self):
 		return self.name
