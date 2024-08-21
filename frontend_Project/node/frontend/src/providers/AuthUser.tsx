@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../types/User";
+import { getUser } from "../functions/getUser";
 
 export type AuthUserContextType = {
     isUserLoading: boolean;
@@ -21,33 +22,34 @@ type Props = {
   }
 
 export const AuthUserProvider = (props: Props) => {
-    const [isUserLoading, setIsUserLoding] = useState(true);
+    const [isUserLoading, setIsUserLoading] = useState(true);
     const [isLogin, setIsLogin] = useState(false);
     const [user, setUser] = useState<User|null>(null);
     const [token, setToken] = React.useState<String | null>(null);
 
     useEffect(()=>{
-        const savedUserId = localStorage.getItem('userId');
-        // TODO: userIdからUser情報を取得する
-        const savedUserName = localStorage.getItem('userName');
-        const savedUserRole = localStorage.getItem('userRole');
-        const savedToken = localStorage.getItem('token');
+        const savedUserId = sessionStorage.getItem('userId');
+        const savedToken = sessionStorage.getItem('token');
         if(!!savedToken){
             setIsLogin(true);
-            setUser({id:Number(savedUserId), name:savedUserName||'default name', role:'user'});
+            const getUserById = async () => {
+              const res = await getUser(Number(savedUserId));
+			  setUser(res);
+			  setIsUserLoading(false);
+            };
+            getUserById();
             setToken(savedToken);
-        }
-        setIsUserLoding(false);
+        }else{
+			setIsUserLoading(false);
+		}
     },[]);
 
     const signin = (newUser: User,token: String | null, callback: () => void) => {
       setIsLogin(true);
       setUser(newUser);
       setToken(token);
-      localStorage.setItem('userId', String(newUser.id));
-      localStorage.setItem('userName', newUser.name);
-      localStorage.setItem('userRole', newUser.role);
-      localStorage.setItem('token', token?.toString()||'');
+      sessionStorage.setItem('userId', String(newUser.id));
+      sessionStorage.setItem('token', token?.toString()||'');
       callback();
     }
 
@@ -55,10 +57,8 @@ export const AuthUserProvider = (props: Props) => {
       setIsLogin(false);
       setUser(null);
       setToken(null);
-      localStorage.removeItem('userId');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('userRole');
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('token');
       callback();
     }
 
