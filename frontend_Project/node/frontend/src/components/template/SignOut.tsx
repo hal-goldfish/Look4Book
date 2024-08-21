@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import { useRouter } from "next/router";
@@ -13,7 +13,9 @@ export const SignOut = () => {
         })
     };
     return (
-        <Button onClick={onClick}><Text>サインアウト</Text></Button>
+        <VStack alignItems='center'>
+            <Button onClick={onClick}><Text>サインアウト</Text></Button>
+        </VStack>
     );
 };
 

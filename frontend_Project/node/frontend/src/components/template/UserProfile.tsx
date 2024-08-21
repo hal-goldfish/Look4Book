@@ -1,20 +1,11 @@
 import React from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
-import router from "next/router";
-import { Box, Button, Heading, HStack, Link, Text, VStack } from "@chakra-ui/react";
-import { TOP_PAGE } from "../../consts/PAGE";
+import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 
 export const UserProfile = () => {
-    const { user , signout} = useAuthUserContext();
-    const handleSignOut = () => {
-        signout(()=>{
-            router.push(TOP_PAGE);
-        });
-    };
+    const { user} = useAuthUserContext();
     return (
         <VStack alignItems='center'>
-            <Heading>プロフィール画面</Heading>
-            <Link href='/'><Text color='blue'>トップページに戻る</Text></Link>
             <Box>
                 <VStack>
                     <HStack>
@@ -27,7 +18,6 @@ export const UserProfile = () => {
                     </HStack>
                 </VStack>
             </Box>
-            <Button onClick={handleSignOut}><Text>sign out</Text></Button>
         </VStack>
     );
 };

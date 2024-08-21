@@ -6,7 +6,7 @@ import axios from "axios";
 import { GET_USER_LIST } from "../../consts/API";
 import { login } from "../../functions/login";
 import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
-import { USER_PROFILE } from "../../consts/PAGE";
+import { SIGN_UP, USER_PROFILE } from "../../consts/PAGE";
 
 export const SignIn = () => {
     const {signin} = useAuthUserContext();
@@ -37,8 +37,7 @@ export const SignIn = () => {
     };
     return (
         <VStack alignItems='center'>
-            <Heading><Text>サインインページです</Text></Heading>
-            <Link href='/'><Text color='blue'>トップページに戻る</Text></Link>
+            <Link href={SIGN_UP}><Text color='blue'>サインアップはこちら</Text></Link>
             <Box h='300px' w='600px' borderColor='black' borderWidth='2px' overflow='auto'>
                 {userList.map((user, id) => <Text fontSize='16px'>{id}.{user}</Text>)}
             </Box>
