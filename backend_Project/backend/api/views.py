@@ -88,8 +88,9 @@ class LoginView(GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             user = User.objects.get(name=serializer.validated_data["name"])
             name = serializer.validated_data['name']
+            id = user.id
             token = AccessToken.create(user)
-            return Response({'detail': "ログインが成功しました。", 'error': 0, 'token': token.token, 'name': name})
+            return Response({'detail': "ログインが成功しました。", 'error': 0, 'token': token.token, 'name': name, 'id': id})
         return Response({'error': 1}, status=400)
 
 
