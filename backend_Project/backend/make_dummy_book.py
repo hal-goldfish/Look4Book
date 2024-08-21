@@ -6,7 +6,8 @@ django.setup()
 from api.get_data import get_and_save_data
 import random
 
-
+from dotenv import load_dotenv
+load_dotenv()
 
 def main():
 
