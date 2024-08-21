@@ -49,6 +49,7 @@ export const SignIn = () => {
                 </HStack>
                 <Button onClick={handleSignIn} isDisabled={userName.length===0 || password.length===0}>sign in</Button>
             </FormControl>
+            {isError ? <Text color='red'>サインインに失敗しました</Text> : null}
         </VStack>
     )
 };
