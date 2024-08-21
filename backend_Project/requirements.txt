@@ -5,3 +5,5 @@ faker
 requests
 django-filter
 pillow
+openai
+python-dotenv

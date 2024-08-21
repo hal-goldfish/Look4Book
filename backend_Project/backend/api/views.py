@@ -1,11 +1,11 @@
 
 # Create your views here.
 
-from .models import User, Book, AccessToken
-from .serializer import UserSerializer, BookSerializer, LoginSerializer
+from .models import User, Book, User_Book, AccessToken
+from .serializer import UserSerializer, BookSerializer, LoginSerializer, User_BookSerializer
 
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
@@ -13,21 +13,28 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 
-@csrf_exempt
+
 def all_book_list(request):
 	if request.method == 'GET':
-		books = Book.objects.all()
+		if "category_id" in request.GET:
+			books = Book.objects.filter(category_id = request.GET.get("category_id"))
+		else:
+			books = Book.objects.all()
 		serializer = BookSerializer(books, many=True)
 		return JsonResponse(serializer.data, safe=False)
 	
 
 def book_detail(request, book_id):
 	if request.method == 'GET':
-		book = Book.objects.get(id = book_id)
-		return JsonResponse(BookSerializer(book).data, safe=False)
+		if "user_id" in request.GET:
+			user_book = User_Book.objects.get(_book_id = book_id, _user_id = request.GET.get("user_id"))
+			user_book_serializer = User_BookSerializer(user_book)
+			return JsonResponse(user_book_serializer.data, safe=False)
+		else :
+			book = Book.objects.get(id = book_id)
+			return JsonResponse(BookSerializer(book).data, safe=False)
 	
 
-@csrf_exempt
 def all_user_list(request):
 	if request.method == 'GET':
 		users = User.objects.all()
@@ -43,10 +50,15 @@ def user_detail(request, user_id):
 
 def user_book_list(request, user_id):
 	if request.method == 'GET':
-		user = User.objects.get(id=user_id)
-		books = user.books.all()
-		return JsonResponse(BookSerializer(books, many=True).data, safe=False)
-	
+		if "category_id" in request.GET:
+			user = User.objects.get(id = user_id)
+			books = user.books.filter(category_id = request.GET.get("category_id"))
+			return JsonResponse(BookSerializer(books, many=True).data, safe=False)
+		else:
+			user = User.objects.get(id=user_id)
+			books = user.books.all()
+			return JsonResponse(BookSerializer(books, many=True).data, safe=False)
+
 
 
 
