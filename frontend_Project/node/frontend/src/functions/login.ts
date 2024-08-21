@@ -1,5 +1,4 @@
 import axios from "axios";
-import router from "next/router";
 import { POST_LOGIN } from "../consts/API";
 import { User } from "../types/User";
 

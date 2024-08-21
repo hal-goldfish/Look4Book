@@ -2,12 +2,13 @@ import React from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import router from "next/router";
 import { Box, Button, Heading, HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { TOP_PAGE } from "../../consts/PAGE";
 
 export const UserProfile = () => {
     const { user , signout} = useAuthUserContext();
     const handleSignOut = () => {
         signout(()=>{
-            router.push('/');
+            router.push(TOP_PAGE);
         });
     };
     return (

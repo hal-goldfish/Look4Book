@@ -6,6 +6,7 @@ import axios from "axios";
 import { GET_USER_LIST } from "../../consts/API";
 import { login } from "../../functions/login";
 import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
+import { USER_PROFILE } from "../../consts/PAGE";
 
 export const SignIn = () => {
     const {signin} = useAuthUserContext();
@@ -27,7 +28,7 @@ export const SignIn = () => {
         const res = await login(userName, password);
         if(res.isSuccess && res.user && res.token){
             signin(res.user, res.token, ()=>{
-                router.push('/UserProfile');
+                router.push(USER_PROFILE);
             })
         }else{
             setPassword('');
