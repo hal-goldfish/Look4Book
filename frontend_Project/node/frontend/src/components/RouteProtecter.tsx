@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from "react";
 import { Roles } from "../types/Roles";
 import { useAuthUserContext } from "../providers/AuthUser";
 import { useRouter } from "next/router";
+import { Text } from "@chakra-ui/react";
 
 type RouteProtecterProps = {
     component: ReactNode,
@@ -21,6 +22,6 @@ export const RouteProtecter = ({
         if(!isAllowed && !isUserLoading) router.push(redirect||'/');
     },[isUserLoading]);
     return (
-        isUserLoading? <p>Loading...</p> : component
+        isUserLoading? <Text>Loading...</Text> : component
     );
 };

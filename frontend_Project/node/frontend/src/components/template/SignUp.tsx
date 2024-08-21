@@ -4,6 +4,7 @@ import { POST_SIGNUP } from "../../consts/API";
 import { useRouter } from "next/router";
 import { login } from "../../functions/login";
 import { useAuthUserContext } from "../../providers/AuthUser";
+import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
 
 export const SignUp = () => {
     const router = useRouter();
@@ -32,15 +33,23 @@ export const SignUp = () => {
         })
     };
     return (
-        <div>
-            <p>サインアップページです</p>
-            <p><a href="/">トップに戻る</a></p>
-            <input type='text' value={userName} placeholder='ユーザーネーム' onChange={(e)=>setUserName(e.target.value)}></input>
-            <input type='password' value={password} placeholder='パスワード' onChange={(e)=>setPassword(e.target.value)}></input>
-            <input type='password' value={passwordConfirmation} placeholder='パスワード確認' onChange={(e)=>setPasswordConfirmation(e.target.value)}></input>
-            <button onClick={handleSignUp} disabled={userName.length === 0 || password.length === 0 || password !== passwordConfirmation}>サインアップ</button>
-            {errorMessage ? <p>{errorMessage}</p> : null}
-        </div>
+        <VStack alignItems='center'>
+            <Heading><Text>サインアップページです</Text></Heading>
+            <Link href='/'><Text color='blue'>トップページに戻る</Text></Link>
+            <FormControl w='600px'>
+                <FormLabel><Text>ユーザー名とパスワードを入力してください</Text></FormLabel>
+                <VStack spacing='16px'>
+                    <Input type='text' value={userName} onChange={(e)=>setUserName(e.target.value)}
+                        placeholder="ユーザーネーム" isInvalid={userName.length===0}></Input>
+                    <Input type='password' value={password} onChange={(e)=>setPassword(e.target.value)}
+                        placeholder="パスワード" isInvalid={password.length===0}></Input>
+                    <Input type='password' value={passwordConfirmation} onChange={(e)=>setPasswordConfirmation(e.target.value)}
+                        placeholder="パスワード再入力" isInvalid={passwordConfirmation.length===0 || password!==passwordConfirmation}></Input>
+                </VStack>
+                <Button onClick={handleSignUp} isDisabled={userName.length === 0 || password.length === 0 || password !== passwordConfirmation}>sign up</Button>
+                {errorMessage? <Text color='red'>{errorMessage}</Text>:null}
+            </FormControl>
+        </VStack>
     )
 };
 

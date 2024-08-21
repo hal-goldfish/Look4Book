@@ -3,8 +3,9 @@ import { useAuthUserContext } from "../../providers/AuthUser";
 import { useRouter } from "next/router";
 import { User } from "../../types/User";
 import axios from "axios";
-import { GET_USER_LIST, POST_LOGIN } from "../../consts/API";
+import { GET_USER_LIST } from "../../consts/API";
 import { login } from "../../functions/login";
+import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
 
 export const SignIn = () => {
     const {signin} = useAuthUserContext();
@@ -34,15 +35,22 @@ export const SignIn = () => {
         }
     };
     return (
-        <div>
-            <p>サインインページです</p>
-            <p><a href="/SignUp">サインアップはこちら</a></p>
-            {userList.map((user, id) => <p>{id}.{user}</p>)}
-            <input type='text' value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder="ユーザーネーム"></input>
-            <input type='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="password"></input>
-            <button onClick={handleSignIn} disabled={userName.length===0 || password.length===0}>sign in</button>
-            <p hidden={!isError}>サインインに失敗しました</p>
-        </div>
+        <VStack alignItems='center'>
+            <Heading><Text>サインインページです</Text></Heading>
+            <Link href='/'><Text color='blue'>トップページに戻る</Text></Link>
+            <Box h='300px' w='600px' borderColor='black' borderWidth='2px' overflow='auto'>
+                {userList.map((user, id) => <Text fontSize='16px'>{id}.{user}</Text>)}
+            </Box>
+            <FormControl w='600px'>
+                <FormLabel><Text>ユーザー名とパスワードを入力してください</Text></FormLabel>
+                <HStack spacing='16px'>
+                    <Input type='text' value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder="ユーザーネーム" isInvalid={userName.length===0}></Input>
+                    <Input type='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="password" isInvalid={password.length===0}></Input>
+                </HStack>
+                <Button onClick={handleSignIn} isDisabled={userName.length===0 || password.length===0}>sign in</Button>
+            </FormControl>
+            {isError ? <Text color='red'>サインインに失敗しました</Text> : null}
+        </VStack>
     )
 };
 
