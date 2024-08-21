@@ -1,5 +1,6 @@
 import React from "react";
 import { AuthUserProvider } from "./AuthUser";
+import { ChakraProvider } from '@chakra-ui/react'
 
 type Props = {
     children: React.ReactNode
@@ -7,8 +8,10 @@ type Props = {
 
 export const Provider = (props: Props) => {
     return (
-        <AuthUserProvider>
-            {props.children}
-        </AuthUserProvider>
+        <ChakraProvider>
+            <AuthUserProvider>
+                {props.children}
+            </AuthUserProvider>
+        </ChakraProvider>
     );
 };
