@@ -12,7 +12,7 @@ export const UserProfile = () => {
             <Header subText='プロフィール'/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
-                <Box w='100%'>
+                <Box w='100%' h='90vh' overflow='auto'>
                     <RouteProtecter component={<UserProfileTemplate/>} allowedRoles={['admin','manager','user']}/>
                 </Box>
             </HStack>

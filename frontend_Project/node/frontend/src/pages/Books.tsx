@@ -12,7 +12,7 @@ export const Books = () => {
             <Header subText='プロフィール'/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
-                <Box w='100%'>
+                <Box w='100%' h='90vh' overflow='auto'>
                     <RouteProtecter component={<BooksTemplate/>} allowedRoles={['admin','manager','user']}/>
                 </Box>
             </HStack>

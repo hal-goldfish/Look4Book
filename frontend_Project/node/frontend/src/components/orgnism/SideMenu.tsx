@@ -12,7 +12,7 @@ export const SideMenu = ({
     menuList,
 }: SideMenuProps) => {
     return (
-        <Box width={width} height='100vh' bg='lightblue'>
+        <Box width={width} height='90vh' bg='lightblue'>
             <VStack spacing='16px'>
                 {menuList.map(menu => <SideMenuButton {...menu}/>)}
             </VStack>

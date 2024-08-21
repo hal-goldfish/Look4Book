@@ -15,7 +15,7 @@ export const Header = ({
         <HStack
         top={0}
         width="100%"
-        height="100%"
+        height="10vh"
         bg="lightgreen">
             <Text fontSize='24px' fontWeight="bold">{text}</Text>
             <Text fontSize='18px'> - {subText}</Text>

@@ -1,4 +1,4 @@
-import { HStack } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import React from "react";
 import { Header } from "../components/orgnism/Header";
 import { SideMenu } from "../components/orgnism/SideMenu";
@@ -13,7 +13,9 @@ export const Top = () => {
             <Header subText='トップ'/>
             <HStack alignItems='flex-start'>
                 <SideMenu  menuList={isLogin? menuListWhenSignIn: menuListWhenSignOut}/>
-                <TopPageTemplate/>
+                <Box w='100%' h='90vh' overflow='auto'>
+                    <TopPageTemplate/>
+                </Box>
             </HStack>
         </>
     );

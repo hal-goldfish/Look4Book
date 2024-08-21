@@ -11,7 +11,7 @@ export const SignOut = () => {
             <Header subText='サインアウト'/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
-                <Box width='100%'>
+                <Box width='100%' h='90vh' overflow='auto'>
                     <SignOutTemplate></SignOutTemplate>
                 </Box>
             </HStack>
