@@ -9,7 +9,7 @@ import { Books as BooksTemplate } from "../components/template/Books";
 export const Books = () => {
     return (
         <>
-            <Header subText='プロフィール'/>
+            <Header subText='本棚'/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
                 <Box w='100%' h='90vh' overflow='auto'>
