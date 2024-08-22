@@ -6,11 +6,11 @@ import LogInButton from "../orgnism/LogInButton";
 
 export const TopPage = () => {
     return (
-        <Box bgImage={topPageBG} bgSize='cover' h='100vh' overflow='hidden'>
-            <VStack>
-                <Box display='flex' justifyContent='center' ml='10%' mt='20vh'>
+        <Flex justify='center' align='center' bgImage={topPageBG} bgSize='cover' filter='sepia(20%)' h='100vh' overflow='hidden'>
+            <VStack bgColor='rgba(200,200,200,0.5)' boxSize='450px'>
+                <Box display='flex' justifyContent='center'mt='10%'>
                     <HStack fontSize='xxx-large' fontWeight='bold'>
-                        <Text fontSize='64px' color='orange'>L</Text>
+                        <Text fontSize='64px' color='yellow'>L</Text>
                         <Text>ook </Text>
                         <Text fontSize='64px' color='green'>F</Text>
                         <Text>or </Text>
@@ -18,10 +18,10 @@ export const TopPage = () => {
                         <Text>ook</Text>
                     </HStack>
                 </Box>
-                <VStack ml='15%' mt='12px'>
+                <VStack mt='5%'>
                     <Text fontSize='x-large' as='u' fontWeight='bold'>本の森で生きる</Text>
                     <HStack fontSize='x-large' as='i' fontWeight='bold'>
-                        <Text fontSize='xx-large' color='orange'>L</Text>
+                        <Text fontSize='xx-large' color='yellow'>L</Text>
                         <Text>ife in a </Text>
                         <Text fontSize='xx-large' color='green'>F</Text>
                         <Text>orest of </Text>
@@ -29,7 +29,7 @@ export const TopPage = () => {
                         <Text>ooks</Text>
                     </HStack>
                 </VStack>
-                <Flex bgImage={topPageBook} bgSize='20vh auto' bgRepeat='no-repeat' h='15vh' w='20vh' ml='15%'>
+                <Flex bgImage={topPageBook} bgSize='20vh auto' bgRepeat='no-repeat' h='15vh' w='20vh' mt='10%'>
                     <HStack w='100%' justify='center'>
                         <Flex justify='center' w='40%'>
                             <SignUpButton/>
@@ -40,6 +40,6 @@ export const TopPage = () => {
                     </HStack>
                 </Flex>
             </VStack>
-        </Box>
+        </Flex>
     );
 };
