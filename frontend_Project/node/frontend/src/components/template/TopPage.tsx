@@ -1,20 +1,10 @@
-import { VStack, Heading, Text, HStack, Box, Image, Button, Flex, Tooltip } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { VStack, Text, HStack, Box, Flex } from "@chakra-ui/react";
 import React from "react";
-import { SIGN_IN, SIGN_UP } from "../../consts/PAGE";
 import { topPageBG, topPageBook } from "../../consts/IMAGE";
-import { Login, PersonAdd } from "@mui/icons-material";
 import SignUpButton from "../orgnism/SignUpButton";
 import LogInButton from "../orgnism/LogInButton";
 
 export const TopPage = () => {
-    const router = useRouter();
-    const onClickSignup = () => {
-        router.push(SIGN_UP);
-    };
-    const onClickLogin = () => {
-        router.push(SIGN_IN);
-    };
     return (
         <Box bgImage={topPageBG} bgSize='cover' h='100vh' overflow='hidden'>
             <VStack>
