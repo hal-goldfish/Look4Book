@@ -5,6 +5,7 @@ import { SIGN_IN, SIGN_UP } from "../../consts/PAGE";
 import { topPageBG, topPageBook } from "../../consts/IMAGE";
 import { Login, PersonAdd } from "@mui/icons-material";
 import SignUpButton from "../orgnism/SignUpButton";
+import LogInButton from "../orgnism/LogInButton";
 
 export const TopPage = () => {
     const router = useRouter();
@@ -44,11 +45,7 @@ export const TopPage = () => {
                             <SignUpButton/>
                         </Flex>
                         <Flex justify='center' w='40%'>
-                            <Tooltip label='ログイン'>
-                                <Button variant='ghost' onClick={onClickLogin}>
-                                    <Login fontSize="large"/>
-                                </Button>
-                            </Tooltip>
+                            <LogInButton/>
                         </Flex>
                     </HStack>
                 </Flex>
