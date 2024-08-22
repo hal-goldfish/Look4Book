@@ -4,6 +4,7 @@ import React from "react";
 import { SIGN_IN, SIGN_UP } from "../../consts/PAGE";
 import { topPageBG, topPageBook } from "../../consts/IMAGE";
 import { Login, PersonAdd } from "@mui/icons-material";
+import SignUpButton from "../orgnism/SignUpButton";
 
 export const TopPage = () => {
     const router = useRouter();
@@ -40,11 +41,7 @@ export const TopPage = () => {
                 <Flex bgImage={topPageBook} bgSize='20vh auto' bgRepeat='no-repeat' h='15vh' w='20vh' ml='15%'>
                     <HStack w='100%' justify='center'>
                         <Flex justify='center' w='40%'>
-                            <Tooltip label='サインアップ'>
-                                <Button variant='ghost' onClick={onClickSignup}>
-                                    <PersonAdd fontSize="large"/>
-                                </Button>
-                            </Tooltip>
+                            <SignUpButton/>
                         </Flex>
                         <Flex justify='center' w='40%'>
                             <Tooltip label='ログイン'>
