@@ -7,3 +7,6 @@ django-filter
 pillow
 openai
 python-dotenv
+gensim
+scikit-learn
+numpy
