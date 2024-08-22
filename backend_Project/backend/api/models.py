@@ -5,6 +5,51 @@ from django.utils import timezone
 
 # Create your models here.
 
+class Categories:
+	categories = [
+		"文学・評論",
+		"ノンフィクション",
+		"ビジネス・経済",
+		"歴史・地理",
+		"政治・社会",
+		"芸能・エンターテインメント",
+		"アート・建築・デザイン",
+		"人文・思想・宗教",
+		"暮らし・健康・料理",
+		"サイエンス・テクノロジー",
+		"趣味・実用",
+		"教育・自己啓発",
+		"スポーツ・アウトドア",
+		"事典・年鑑・本・ことば",
+		"音楽",
+		"旅行・紀行",
+		"絵本・児童書",
+		"コミックス",
+	]
+	id = {
+        "文学・評論": 0,
+		"ノンフィクション": 1,
+		"ビジネス・経済": 2,
+		"歴史・地理": 3,
+		"政治・社会": 4,
+		"芸能・エンターテインメント": 5,
+		"アート・建築・デザイン": 6,
+		"人文・思想・宗教": 7,
+		"暮らし・健康・料理": 8,
+		"サイエンス・テクノロジー": 9,
+		"趣味・実用": 10,
+		"教育・自己啓発": 11,
+		"スポーツ・アウトドア": 12,
+		"事典・年鑑・本・ことば": 13,
+		"音楽": 14,
+		"旅行・紀行": 15,
+		"絵本・児童書": 16,
+		"コミックス": 17,
+	}
+ 
+ 
+
+
 class Book(models.Model):
 	ISBN = models.CharField(max_length=13)
 	title = models.CharField(max_length=50, null=True)
@@ -12,11 +57,10 @@ class Book(models.Model):
 	publisher = models.CharField(max_length=20, null=True)
 	overview = models.TextField(null=True)
 	book_cover = models.ImageField(upload_to = 'images/', null=True)
-
+	category_id = models.IntegerField(null = True)
+    
 	def __str__(self):
 		return self.title
-
-
 
 
 
@@ -28,11 +72,31 @@ class User(models.Model):
 
 	def __str__(self):
 		return self.name
+     
 
+# よくわかんなかったので Book と同じ内容を保存しているが、絶対にやめた方が良い。
+class User_Book(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    
+    _user_id = models.IntegerField()
+    _book_id = models.IntegerField()
+    
+    state = models.IntegerField(default=0)
+    regist_date = models.DateTimeField()
+    
+    ISBN = models.CharField(max_length=13)
+    title = models.CharField(max_length=50, null=True)
+    author = models.CharField(max_length=20, null=True)
+    publisher = models.CharField(max_length=20, null=True)
+    overview = models.TextField(null=True)
+    book_cover = models.ImageField(upload_to = 'images/', null=True)
+    category_id = models.IntegerField(null = True)
+    
+    def __str__(self):
+        return self.user.name + " : " + self.title
 
-
-
-
+     
 
 # def in_30_days():
 #     return timezone.now() + timedelta(days=30)

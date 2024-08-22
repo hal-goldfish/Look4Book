@@ -5,6 +5,8 @@ services:
     build:
       context: ./backend_Project
       dockerfile: docker/python/Dockerfile
+    env_file:
+      - ./backend_Project/.env
     volumes:
       - ./backend_Project/backend:/backend
     command: python3 /backend/manage.py runserver 0.0.0.0:8000
