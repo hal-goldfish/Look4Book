@@ -10,13 +10,7 @@ export const Top = () => {
     const {isLogin} = useAuthUserContext();
     return (
         <>
-            <Header subText='トップ'/>
-            <HStack alignItems='flex-start'>
-                <SideMenu  menuList={isLogin? menuListWhenSignIn: menuListWhenSignOut}/>
-                <Box w='100%' h='90vh' overflow='auto'>
-                    <TopPageTemplate/>
-                </Box>
-            </HStack>
+            <TopPageTemplate/>
         </>
     );
 };
