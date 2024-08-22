@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import { useRouter } from "next/router";
-import { User } from "../../types/User";
 import axios from "axios";
-import { GET_USER_LIST } from "../../consts/API";
+import { GET_USER } from "../../consts/API";
 import { login } from "../../functions/login";
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
+import { SIGN_UP, USER_PROFILE } from "../../consts/PAGE";
 
 export const SignIn = () => {
     const {signin} = useAuthUserContext();
@@ -16,7 +16,7 @@ export const SignIn = () => {
     const router = useRouter();
 
     const getUsers = async () => {
-        const res = await axios.get(GET_USER_LIST);
+        const res = await axios.get(GET_USER);
         setUserList(res.data.map((user) => new String(user['name'])));
     };
 
@@ -27,7 +27,7 @@ export const SignIn = () => {
         const res = await login(userName, password);
         if(res.isSuccess && res.user && res.token){
             signin(res.user, res.token, ()=>{
-                router.push('/UserProfile');
+                router.push(USER_PROFILE);
             })
         }else{
             setPassword('');
@@ -36,8 +36,7 @@ export const SignIn = () => {
     };
     return (
         <VStack alignItems='center'>
-            <Heading><Text>サインインページです</Text></Heading>
-            <Link href='/'><Text color='blue'>トップページに戻る</Text></Link>
+            <Link href={SIGN_UP}><Text color='blue'>サインアップはこちら</Text></Link>
             <Box h='300px' w='600px' borderColor='black' borderWidth='2px' overflow='auto'>
                 {userList.map((user, id) => <Text fontSize='16px'>{id}.{user}</Text>)}
             </Box>

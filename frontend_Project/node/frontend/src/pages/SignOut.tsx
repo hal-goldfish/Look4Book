@@ -1,22 +1,22 @@
 import React from "react";
-import {SignUp as SignUpTemplate } from "../components/template/SignUp";
 import { Header } from "../components/orgnism/Header";
+import { SignOut as SignOutTemplate } from './../components/template/SignOut';
 import { Box, HStack } from "@chakra-ui/react";
 import { SideMenu } from "../components/orgnism/SideMenu";
-import { menuListWhenSignOut } from "../consts/SideMenu";
+import { menuListWhenSignIn } from "../consts/SideMenu";
 
-export const SignUp = () => {
+export const SignOut = () => {
     return (
         <>
-            <Header subText='サインアップ' />
+            <Header subText='サインアウト'/>
             <HStack alignItems='flex-start'>
-                <SideMenu menuList={menuListWhenSignOut}/>
+                <SideMenu menuList={menuListWhenSignIn}/>
                 <Box width='100%' h='90vh' overflow='auto'>
-                    <SignUpTemplate></SignUpTemplate>
+                    <SignOutTemplate></SignOutTemplate>
                 </Box>
             </HStack>
         </>
     );
 };
 
-export default SignUp;
+export default SignOut;

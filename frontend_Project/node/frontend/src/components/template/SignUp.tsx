@@ -4,7 +4,8 @@ import { POST_SIGNUP } from "../../consts/API";
 import { useRouter } from "next/router";
 import { login } from "../../functions/login";
 import { useAuthUserContext } from "../../providers/AuthUser";
-import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Text, VStack } from "@chakra-ui/react";
+import { USER_PROFILE } from "../../consts/PAGE";
 
 export const SignUp = () => {
     const router = useRouter();
@@ -23,7 +24,7 @@ export const SignUp = () => {
             const res = await login(userName, password);
             if(res.isSuccess && res.user && res.token){
                 signin(res.user, res.token, ()=>{
-                    router.push('/UserProfile');
+                    router.push(USER_PROFILE);
                 })
             }else{
                 setErrorMessage('サインアップ出来ましたがサインインに失敗しました。');
@@ -34,8 +35,6 @@ export const SignUp = () => {
     };
     return (
         <VStack alignItems='center'>
-            <Heading><Text>サインアップページです</Text></Heading>
-            <Link href='/'><Text color='blue'>トップページに戻る</Text></Link>
             <FormControl w='600px'>
                 <FormLabel><Text>ユーザー名とパスワードを入力してください</Text></FormLabel>
                 <VStack spacing='16px'>

@@ -1,23 +1,23 @@
 import React from "react";
-import {UserProfile as UserProfileTemplate } from "../components/template/UserProfile";
-import { RouteProtecter } from "../components/RouteProtecter";
 import { Header } from "../components/orgnism/Header";
-import { Box, HStack } from "@chakra-ui/react";
+import { HStack, Box } from "@chakra-ui/react";
 import { SideMenu } from "../components/orgnism/SideMenu";
+import { RouteProtecter } from "../components/RouteProtecter";
 import { menuListWhenSignIn } from "../consts/SideMenu";
+import { Books as BooksTemplate } from "../components/template/Books";
 
-export const UserProfile = () => {
+export const Books = () => {
     return (
         <>
-            <Header subText='プロフィール'/>
+            <Header subText='本棚'/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
                 <Box w='100%' h='90vh' overflow='auto'>
-                    <RouteProtecter component={<UserProfileTemplate/>} allowedRoles={['admin','manager','user']}/>
+                    <RouteProtecter component={<BooksTemplate/>} allowedRoles={['admin','manager','user']}/>
                 </Box>
             </HStack>
         </>
     );
-};
+}
 
-export default UserProfile;
+export default Books;

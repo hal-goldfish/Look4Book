@@ -1,5 +1,4 @@
 import axios from "axios";
-import router from "next/router";
 import { POST_LOGIN } from "../consts/API";
 import { User } from "../types/User";
 
@@ -26,7 +25,7 @@ export async function login(userName: string, password: string): Promise<{
         const user: User = {
             id: res.data['id'],
             name: res.data['name'],
-            role: 'user',
+            role: res.data['role'],
         }
         return {
             isSuccess: true,

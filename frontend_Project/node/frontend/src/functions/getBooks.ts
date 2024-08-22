@@ -1,0 +1,23 @@
+import axios from "axios";
+import { GET_USER } from "../consts/API";
+import { Book } from "../types/Book";
+
+export async function getBooks(userId: number): Promise<Book[]>{
+    let apiIsSuccess = true ;
+    const res = await axios.get(GET_USER+String(userId)+'/books/').catch(() => {
+        apiIsSuccess = false ;
+    });
+    if(apiIsSuccess){
+        return res.data.map(book => {
+            return {
+                id: book['id'],
+                isbn: book['ISBN'],
+                title: book['title'],
+                author: book['author'],
+                publisher: book['publisher'],
+            } ;
+        })
+    }else{
+        return [];
+    }
+};
