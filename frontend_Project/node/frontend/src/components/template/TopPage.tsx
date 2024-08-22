@@ -1,7 +1,9 @@
-import { VStack, Heading, Text, HStack, Box, Image, Button } from "@chakra-ui/react";
+import { VStack, Heading, Text, HStack, Box, Image, Button, Flex, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { SIGN_IN, SIGN_UP } from "../../consts/PAGE";
+import { topPageBG, topPageBook } from "../../consts/IMAGE";
+import { Login, PersonAdd } from "@mui/icons-material";
 
 export const TopPage = () => {
     const router = useRouter();
@@ -12,24 +14,47 @@ export const TopPage = () => {
         router.push(SIGN_IN);
     };
     return (
-        <Box bgImage='./images/topPageBG.jpg' bgSize='cover' h='100vh' overflow='hidden'>
+        <Box bgImage={topPageBG} bgSize='cover' h='100vh' overflow='hidden'>
             <VStack>
-                <HStack w='100%' spacing='24px' pr='24px' py='8px' justify='right'>
-                    <Button variant='ghost' color="black" onClick={onClickSignup} bgColor='rgba(200,0,0,0.5)'>
-                        <Text fontSize='x-large'>sign up</Text>
-                    </Button>
-                    <Button variant='ghost' color="black" onClick={onClickLogin} bgColor='rgba(200,0,0,0.5)'>
-                        <Text fontSize='x-large'>log in</Text>
-                    </Button>
-                </HStack>
-                <Box display='flex' justifyContent='left' w='100%' ml='80px' mt='64px'>
-                    <Heading>
-                        <Text px='16px' bgColor='rgba(200,0,0,0.5)' fontSize='xxx-large' color='black'>Look4Book</Text>
-                    </Heading>
+                <Box display='flex' justifyContent='center' ml='10%' mt='20vh'>
+                    <HStack fontSize='xxx-large' fontWeight='bold'>
+                        <Text fontSize='64px' color='orange'>L</Text>
+                        <Text>ook </Text>
+                        <Text fontSize='64px' color='green'>F</Text>
+                        <Text>or </Text>
+                        <Text fontSize='64px' color='blue'>B</Text>
+                        <Text>ook</Text>
+                    </HStack>
                 </Box>
-                <Box display='flex' justifyContent='center' w='100%' mr='25%'>
-                    <Text bgColor='rgba(200,0,0,0.5)' fontSize='x-large' color='black'>本の森で、暮らすということ</Text>
-                </Box>
+                <VStack ml='15%' mt='12px'>
+                    <Text fontSize='x-large' as='u' fontWeight='bold'>本の森で生きる</Text>
+                    <HStack fontSize='x-large' as='i' fontWeight='bold'>
+                        <Text fontSize='xx-large' color='orange'>L</Text>
+                        <Text>ife in a </Text>
+                        <Text fontSize='xx-large' color='green'>F</Text>
+                        <Text>orest of </Text>
+                        <Text fontSize='xx-large' color='blue'>B</Text>
+                        <Text>ooks</Text>
+                    </HStack>
+                </VStack>
+                <Flex bgImage={topPageBook} bgSize='20vh auto' bgRepeat='no-repeat' h='15vh' w='20vh' ml='15%'>
+                    <HStack w='100%' justify='center'>
+                        <Flex justify='center' w='40%'>
+                            <Tooltip label='サインアップ'>
+                                <Button variant='ghost' onClick={onClickSignup}>
+                                    <PersonAdd fontSize="large"/>
+                                </Button>
+                            </Tooltip>
+                        </Flex>
+                        <Flex justify='center' w='40%'>
+                            <Tooltip label='ログイン'>
+                                <Button variant='ghost' onClick={onClickLogin}>
+                                    <Login fontSize="large"/>
+                                </Button>
+                            </Tooltip>
+                        </Flex>
+                    </HStack>
+                </Flex>
             </VStack>
         </Box>
     );
