@@ -35,6 +35,8 @@ def book_list(request):
 			books = books.filter(category_id = request.GET.get("category_id"))
 		if "sort_by" in request.GET:
 			books = books.order_by(request.GET.get("sort_by"))
+		if "favorite" in request.GET and request.GET.get("favorite") == "1":
+			books = books.filter(favorite = 1)
 		return JsonResponse(User_BookSerializer(books, many=True).data, safe = False)
 
 
@@ -64,7 +66,7 @@ def book_detail(request):
 		return JsonResponse(User_BookSerializer(book).data, safe = False)
 	
 	
-# @csrf_exempt
+@csrf_exempt
 def book_edit(request):
 	if request.method == 'POST':
 		if not ("user_id" in request.GET):
@@ -73,9 +75,22 @@ def book_edit(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
-		if "state" in request.POST:
-			book.state = request.POST.get("state")
-			book.save()
+		user = User.objects.get(id = request.GET.get("user_id"))
+
+		if "state" in request.POST: # state 処理
+			state = int(request.POST.get("state"))
+			if book.state == 0 and state == 1: # 本を読了した
+				user.already_read += 1
+			elif book.state == 1 and state == 0: # 本が未読になった
+				user.already_read -= 1
+			book.state = state
+
+		user.save()
+
+		if "favorite" in request.POST: # favorite 処理
+			book.favorite = int(request.POST.get("favorite"))
+
+		book.save()
 		return JsonResponse({"is_success": "true"})
 
 
@@ -98,7 +113,7 @@ def book_regist(request):
 def user(request):
 	if request.method == 'GET':
 		if "user_id" in request.GET:
-			user = User.objects.get(user_id = request.GET.get("user_id"))
+			user = User.objects.get(id = request.GET.get("user_id"))
 			return JsonResponse(UserSerializer(user).data, safe = False)
 		else:
 			users = User.objects.all()
