@@ -1,5 +1,4 @@
 import { SideMenuButtonProps } from "../components/molecules/SideMenuButton";
-import Books from "../pages/Books";
 import { BOOKS, SIGN_IN, SIGN_OUT, TOP_PAGE, USER_PROFILE } from "./PAGE";
 
 export const SIDE_TOP_BUTTON: SideMenuButtonProps = {

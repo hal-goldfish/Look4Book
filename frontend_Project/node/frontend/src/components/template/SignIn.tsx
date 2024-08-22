@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import { useRouter } from "next/router";
-import { User } from "../../types/User";
 import axios from "axios";
 import { GET_USER } from "../../consts/API";
 import { login } from "../../functions/login";
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, HStack, Input, Link, Text, VStack } from "@chakra-ui/react";
 import { SIGN_UP, USER_PROFILE } from "../../consts/PAGE";
 
 export const SignIn = () => {

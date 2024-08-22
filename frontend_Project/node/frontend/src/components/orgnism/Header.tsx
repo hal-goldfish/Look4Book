@@ -1,5 +1,4 @@
-import { HamburgerIcon } from "@chakra-ui/icons";
-import { Flex, HStack, Text } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import React from "react";
 
 type HeaderProps = {
