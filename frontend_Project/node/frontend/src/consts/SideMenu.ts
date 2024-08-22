@@ -32,14 +32,12 @@ export const SIDE_BOOKS_BUTTON: SideMenuButtonProps = {
 }
 
 export const menuListWhenSignIn: SideMenuButtonProps[] = [
-    SIDE_TOP_BUTTON,
     SIDE_SIGNOUT_BUTTON,
     SIDE_PROFILE_BUTTON,
     SIDE_BOOKS_BUTTON,
 ]
 
 export const menuListWhenSignOut: SideMenuButtonProps[] = [
-    SIDE_TOP_BUTTON,
     SIDE_SIGNIN_BUTTON,
     SIDE_PROFILE_BUTTON,
     SIDE_BOOKS_BUTTON,
