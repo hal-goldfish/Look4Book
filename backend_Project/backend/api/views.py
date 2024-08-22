@@ -78,12 +78,13 @@ def book_edit(request):
 		user = User.objects.get(id = request.GET.get("user_id"))
 
 		if "state" in request.POST: # state 処理
-			state = int(request.POST.get("state"))
-			if book.state == 0 and state == 1: # 本を読了した
-				user.already_read += 1
-			elif book.state == 1 and state == 0: # 本が未読になった
-				user.already_read -= 1
-			book.state = state
+			before = book.state
+			after = int(request.POST.get("state"))
+			state_count = user.state_count.split(" ")
+			state_count[before] = str(int(state_count[before]) - 1)
+			state_count[after] = str(int(state_count[after]) + 1)
+			user.state_count = " ".join(state_count)
+			book.state = after
 
 		user.save()
 

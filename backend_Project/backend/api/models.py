@@ -71,7 +71,7 @@ class User(models.Model):
 	role = models.CharField(max_length = 20, default="user")
      
 	book_count = models.IntegerField(default=0) # 冊数
-	already_read = models.IntegerField(default=0) # 読了した冊数
+	state_count = models.TextField(default = " ".join(['0', '0', '0']))
 	categories_count = models.TextField(default = " ".join(Categories.e)) # カテゴリごとの冊数
 
 	def __str__(self):
