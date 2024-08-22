@@ -15,13 +15,17 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 
+@csrf_exempt
 def book(request):
-	if request.method == 'GET':
+	if request.method == 'POST':
 		books = Book.objects.all()
-		if "category_id" in request.GET:
-			books = books.filter(category_id = request.GET.get("category_id"))
-		if "sort_by" in request.GET:
-			books = books.order_by(request.GET.get("sort_by"))
+		if "category_id" in request.POST:
+			categories = request.POST.get("category_id").split(" ")
+			books = books.filter(category_id = categories[0])
+			for cat in categories:
+				books = books | Book.objects.all().filter(category_id = cat)
+		if "sort_by" in request.POST:
+			books = books.order_by(request.POST.get("sort_by"))
 		return JsonResponse(BookSerializer(books, many=True).data, safe = False)
 
 
