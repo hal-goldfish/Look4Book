@@ -7,10 +7,10 @@ import { SideMenu } from "../orgnism/SideMenu";
 import { commonBG } from "../../consts/IMAGE";
 
 export const UserProfile = () => {
-    const { user} = useAuthUserContext();
+    const { user } = useAuthUserContext();
     return (
         <Box bgImage={commonBG} bgSize='cover' overflow='hidden'>
-            <Header subText='プロフィール'/>
+            <Header title='プロフィール' userName={user?.name || ''}/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
                 <Box w='100%' h='90vh' overflow='auto'>
