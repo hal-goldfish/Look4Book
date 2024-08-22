@@ -54,8 +54,24 @@ def get_and_save_data(isbn, user_id):
 
 	if text.find("Record does not exist") != -1:
 		return False
-
 	
+
+	book = Book()
+
+	# 書影
+	url_image = "https://ndlsearch.ndl.go.jp/thumbnail/" + isbn + ".jpg"
+
+	response = requests.get(url_image)
+	if response.headers['Content-Type'] == "image/jpeg": # 書影がある
+		import os
+		path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/images/" + str(book.id) + ".jpg"
+		with open(path, 'wb') as file:
+			file.write(response.content)
+		book.book_cover = path
+	else:
+		return False
+
+
 	# タイトル
 	idx = text.find("title")+9
 	title = ""
@@ -126,26 +142,12 @@ def get_and_save_data(isbn, user_id):
 		category_id = -1                    # カテゴリが不明な場合
 
 
-	book = Book(ISBN = isbn,
-		title = title,
-		author = author,
-		publisher = publisher, 
-		category_id = category_id)
+	book.ISBN = isbn
+	book.title = title
+	book.author = author
+	book.publisher = publisher
+	book.category_id = category_id
 	
-	book.save()
-
-	
-	# 書影
-	url_image = "https://ndlsearch.ndl.go.jp/thumbnail/" + isbn + ".jpg"
-
-	response = requests.get(url_image)
-	if response.headers['Content-Type'] == "image/jpeg": # 書影がある
-		import os
-		path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/images/" + str(book.id) + ".jpg"
-		with open(path, 'wb') as file:
-			file.write(response.content)
-		book.book_cover = path
-
 	book.save()
 
 	user = User.objects.get(id=user_id)
@@ -179,6 +181,10 @@ def get_and_save_data(isbn, user_id):
 		category_id = book.category_id,
 	)
 	user_book.save()
+
+	f = open('ISBNmemo.txt', 'a')
+	f.write(book.ISBN+'\n')
+	f.close()
 
 	return True
 
