@@ -19,29 +19,46 @@ from rest_framework.permissions import AllowAny
 from django.conf import settings
 
 
+@csrf_exempt
 def book(request):
-	if request.method == 'GET':
+	if request.method == 'POST':
 		books = Book.objects.all()
-		if "category_id" in request.GET:
-			books = books.filter(category_id = request.GET.get("category_id"))
-		if "sort_by" in request.GET:
-			books = books.order_by(request.GET.get("sort_by"))
+		if "category_id" in request.POST:
+			categories = request.POST.get("category_id").split(" ")
+			books = books.filter(category_id__in = categories)
+		if "sort_by" in request.POST:
+			books = books.order_by(request.POST.get("sort_by"))
+			if "reverse" in request.POST and request.POST.get("reverse") == "True":
+				books = books.reverse()
 		return JsonResponse(BookSerializer(books, many=True).data, safe = False)
 
 
+@csrf_exempt
 def book_list(request):
-	if request.method == 'GET':
-		if "user_id" in request.GET:
-			books = User_Book.objects.filter(_user_id = request.GET.get("user_id"))
-		else:
+	if request.method == 'POST':
+		if not "user_id" in request.POST:
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
-		if "category_id" in request.GET:
-			books = books.filter(category_id = request.GET.get("category_id"))
-		if "sort_by" in request.GET:
-			books = books.order_by(request.GET.get("sort_by"))
-		if "favorite" in request.GET and request.GET.get("favorite") == "1":
-			books = books.filter(favorite = 1)
-		return JsonResponse(User_BookSerializer(books, many=True).data, safe = False)
+		
+		res = User_Book.objects.filter(_user_id = request.POST.get("user_id"))
+
+		if "category_id" in request.POST:
+			categories = request.POST.get("category_id").split(" ")
+			res = res.filter(category_id__in = categories)
+
+		if "favorite" in request.POST:
+			favs = request.POST.get("favorite").split(" ")
+			res = res.filter(favorite__in = favs)
+
+		if "state" in request.POST:
+			states = request.POST.get("state").split(" ")
+			res = res.filter(state__in = states)
+
+		if "sort_by" in request.POST:
+			res = res.order_by(request.POST.get("sort_by"))
+			if "reverse" in request.POST and request.POST.get("reverse") == "True":
+				res = res.reverse()
+
+		return JsonResponse(User_BookSerializer(res, many=True).data, safe = False)
 
 
 def book_get(request):
