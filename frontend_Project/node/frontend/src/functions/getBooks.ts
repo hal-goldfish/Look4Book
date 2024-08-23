@@ -1,10 +1,12 @@
 import axios from "axios";
-import { GET_USER } from "../consts/API";
+import { GET_BOOKS, GET_USER } from "../consts/API";
 import { Book } from "../types/Book";
 
 export async function getBooks(userId: number): Promise<Book[]>{
     let apiIsSuccess = true ;
-    const res = await axios.get(GET_USER+String(userId)+'/books/').catch(() => {
+    const res = await axios.get(GET_BOOKS, {
+        user_id: userId,
+    }).catch(() => {
         apiIsSuccess = false ;
     });
     if(apiIsSuccess){

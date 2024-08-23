@@ -1,0 +1,1 @@
+export const commonBG = './images/common/commonBG.png';
