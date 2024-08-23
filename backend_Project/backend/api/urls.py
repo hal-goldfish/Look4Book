@@ -11,7 +11,7 @@ from django.conf import settings
 
 urlpatterns = [
 	path('book/', book),
-	path('book/list', book_list),
+	path('book/list/', book_list),
 	path('book/get/', book_get),
 	path('book/detail/', book_detail),
 	path('book/edit/', book_edit),
