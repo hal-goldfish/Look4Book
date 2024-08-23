@@ -1,19 +1,17 @@
 import axios from "axios";
-import { GET_BOOKS } from "../consts/API";
+import { POST_BOOKS } from "../consts/API";
 import { MyBook } from "../types/MyBook";
 import { CATEGORIES } from "../consts/Categories";
 import { STATES } from "../consts/States";
 
 export async function getBooks(userId: Number): Promise<MyBook[]>{
     let apiIsSuccess = true ;
-    const res = await axios.get(GET_BOOKS, {
-        params: {
-            user_id: userId
-        }
-    }).catch(() => {
+    const res = await axios.post(POST_BOOKS, JSON.stringify({
+        user_id: userId,
+    })).catch(() => {
         apiIsSuccess = false ;
     });
-    if(res.data['is_success']) apiIsSuccess = false;
+    if( apiIsSuccess && res.data['is_success']) apiIsSuccess = false;
     if(apiIsSuccess){
         return res.data.map(book => {
             const res: MyBook =  {

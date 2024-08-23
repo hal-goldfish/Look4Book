@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
 import SearchArea from "../orgnism/SearchArea";
