@@ -6,9 +6,10 @@ import { STATES } from "../consts/States";
 
 export async function getBooks(userId: Number): Promise<MyBook[]>{
     let apiIsSuccess = true ;
-    const res = await axios.post(POST_BOOKS, JSON.stringify({
+    console.log(userId);
+    const res = await axios.post(POST_BOOKS, {
         user_id: userId,
-    })).catch(() => {
+    }).catch(() => {
         apiIsSuccess = false ;
     });
     if( apiIsSuccess && res.data['is_success']) apiIsSuccess = false;
