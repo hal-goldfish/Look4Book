@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import { Book } from "../../types/Book";
 import { getBooks } from "../../functions/getBooks";
-import { Box, HStack, Table, Td, Thead, Tr } from "@chakra-ui/react";
-import { menuListWhenSignIn } from "../../consts/SideMenu";
+import { Box, Flex, Table, Td, Thead, Tr, VStack } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
-import { SideMenu } from "../orgnism/SideMenu";
 import { commonBG } from "../../consts/IMAGE";
 
-export const Books = () => {
+const Books = () => {
     const {user} = useAuthUserContext();
     const [bookList, setBookList] = useState<Book[]>([]);
 
@@ -21,31 +19,38 @@ export const Books = () => {
         getBooksByUserId();
     },[]);
     return (
-        <Box bgImage={commonBG} bgSize='cover' overflow='hidden'>
+        <Table>
+            <Thead>
+                <Td>タイトル</Td>
+                <Td>ISBN</Td>
+                <Td>筆者</Td>
+                <Td>出版社</Td>
+            </Thead>
+            {bookList.map(book =>
+                <Tr>
+                    <Td>{book.title}</Td>
+                    <Td>{book.isbn}</Td>
+                    <Td>{book.author}</Td>
+                    <Td>{book.publisher}</Td>
+                </Tr>
+            )}
+        </Table>
+    );
+};
+
+export const BooksTemplate = () => {
+    return (
+        <VStack bgImage={commonBG} bgSize='cover' bgRepeat='no-repeat' h='100vh' overflow='hidden'>
             <Header curPage='本棚'/>
-            <HStack alignItems='flex-start'>
-                <SideMenu menuList={menuListWhenSignIn}/>
-                <Box w='100%' h='90vh' overflow='auto'>
-                    <Table>
-                        <Thead>
-                            <Td>タイトル</Td>
-                            <Td>ISBN</Td>
-                            <Td>筆者</Td>
-                            <Td>出版社</Td>
-                        </Thead>
-                        {bookList.map(book =>
-                            <Tr>
-                                <Td>{book.title}</Td>
-                                <Td>{book.isbn}</Td>
-                                <Td>{book.author}</Td>
-                                <Td>{book.publisher}</Td>
-                            </Tr>
-                        )}
-                    </Table>
+            <Flex w='100%' h='90vh' alignItems='center'>
+                <Box w='100%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px' m='5%'>
+                    <Box w='100%' h='100%' overflow='auto'>
+                        <Books/>
+                    </Box>
                 </Box>
-            </HStack>
-        </Box>
+            </Flex>
+        </VStack>
     );
 }
 
-export default Books;
+export default BooksTemplate;

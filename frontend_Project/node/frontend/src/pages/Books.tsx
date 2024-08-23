@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteProtecter } from "../components/RouteProtecter";
-import { Books as BooksTemplate } from "../components/template/Books";
+import { BooksTemplate } from "../components/template/Books";
 
 export const Books = () => {
     return (

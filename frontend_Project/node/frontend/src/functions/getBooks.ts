@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_BOOKS, GET_USER } from "../consts/API";
+import { GET_BOOKS } from "../consts/API";
 import { Book } from "../types/Book";
 
 export async function getBooks(userId: number): Promise<Book[]>{
@@ -11,7 +11,6 @@ export async function getBooks(userId: number): Promise<Book[]>{
     }).catch(() => {
         apiIsSuccess = false ;
     });
-    console.log(res.data);
     if(res.data['is_success']) apiIsSuccess = false;
     if(apiIsSuccess){
         return res.data.map(book => {
