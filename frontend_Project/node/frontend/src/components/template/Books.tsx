@@ -22,7 +22,7 @@ export const Books = () => {
     },[]);
     return (
         <Box bgImage={commonBG} bgSize='cover' overflow='hidden'>
-            <Header title='本棚' userName={user?.name || ''}/>
+            <Header curPage='本棚'/>
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
                 <Box w='100%' h='90vh' overflow='auto'>

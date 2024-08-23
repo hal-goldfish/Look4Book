@@ -10,7 +10,7 @@ export const UserProfile = () => {
     const { user } = useAuthUserContext();
     return (
         <Box bgImage={commonBG} bgSize='cover' overflow='hidden'>
-            <Header title='プロフィール' userName={user?.name || ''}/>
+            <Header curPage='プロフィール' />
             <HStack alignItems='flex-start'>
                 <SideMenu menuList={menuListWhenSignIn}/>
                 <Box w='100%' h='90vh' overflow='auto'>
