@@ -1,6 +1,8 @@
 
 # Create your views here.
 
+import os
+
 from .models import User, Book, User_Book, AccessToken
 from .serializer import UserSerializer, BookSerializer, LoginSerializer, User_BookSerializer
 
@@ -13,6 +15,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+
+from django.conf import settings
 
 
 def book(request):
@@ -120,6 +124,22 @@ def user(request):
 			users = User.objects.all()
 			serializer = UserSerializer(users, many=True)
 			return JsonResponse(serializer.data, safe=False)
+		
+
+def image(request):
+	if request.method == 'GET':
+		if not "book_id" in request.GET:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		id = request.GET.get("book_id")
+		if os.path.isfile(settings.MEDIA_ROOT + "/data/" + id + ".jpg"):
+			with open(settings.MEDIA_ROOT + "/data/" + id + ".jpg", "rb") as fh:
+				response = HttpResponse(fh.read(), content_type="image/jpeg")
+				return response
+		else:
+			with open(settings.MEDIA_ROOT + "/imageNotFound.jpg", "rb") as fh:
+				response = HttpResponse(fh.read(), content_type="image/jpeg")
+				return response
+
 	
 
 

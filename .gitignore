@@ -4,5 +4,5 @@ backend_Project/backend/backend/__pycache__/
 backend_Project/backend/api/__pycache__/
 backend_Project/backend/api/migrations/__pycache__/
 backend_Project/backend/db.sqlite3
-backend_Project/backend/images/*.jpg
+backend_Project/backend/images/data/*.jpg
 *.env
