@@ -141,7 +141,7 @@ def get_and_save_data(isbn, user_id):
 	response = requests.get(url_image)
 	if response.headers['Content-Type'] == "image/jpeg": # 書影がある
 		import os
-		path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/images/" + str(book.id) + ".jpg"
+		path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/images/data/" + str(book.id) + ".jpg"
 		with open(path, 'wb') as file:
 			file.write(response.content)
 		book.book_cover = path
