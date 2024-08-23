@@ -26,6 +26,8 @@ def book(request):
 				books = books | Book.objects.all().filter(category_id = cat)
 		if "sort_by" in request.POST:
 			books = books.order_by(request.POST.get("sort_by"))
+			if "reverse" in request.POST and request.POST.get("reverse") == "True":
+				books = books.reverse()
 		return JsonResponse(BookSerializer(books, many=True).data, safe = False)
 
 
