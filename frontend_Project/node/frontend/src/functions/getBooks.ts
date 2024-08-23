@@ -9,6 +9,8 @@ export async function getBooks(userId: Number): Promise<MyBook[]>{
     console.log(userId);
     const res = await axios.post(POST_BOOKS, {
         user_id: userId,
+    }, {
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).catch(() => {
         apiIsSuccess = false ;
     });
