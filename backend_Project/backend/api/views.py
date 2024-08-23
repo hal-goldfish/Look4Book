@@ -18,6 +18,9 @@ from rest_framework.permissions import AllowAny
 
 from django.conf import settings
 
+import requests
+
+
 
 @csrf_exempt
 def book(request):
@@ -157,6 +160,21 @@ def image(request):
 				response = HttpResponse(fh.read(), content_type="image/jpeg")
 				return response
 
+
+def imagebyisbn(request):
+	if request.method == 'GET':
+		if not "ISBN" in request.GET:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		
+		isbn = request.GET.get("ISBN")
+		url_image = "https://ndlsearch.ndl.go.jp/thumbnail/" + isbn + ".jpg"
+
+		response = requests.get(url_image)
+		if response.headers['Content-Type'] == "image/jpeg":
+			return HttpResponse(response.content, content_type="image/jpeg")
+		else:
+			with open(settings.MEDIA_ROOT + "/imageNotFound.jpg", "rb") as fh:
+				return HttpResponse(fh.read(), content_type="image/jpeg")
 	
 
 
