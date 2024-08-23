@@ -1,8 +1,9 @@
 import { Box, Button, Checkbox, Divider, Flex, HStack, Input, Spacer, Text, Tooltip, VStack } from "@chakra-ui/react";
 import { Search } from "@mui/icons-material";
-import React, { useState } from "react";
+import React from "react";
 import { CATEGORIES } from "../../consts/Categories";
 import SearchCheckBox from "../molecules/SearchCheckBox";
+import { STATES } from "../../consts/States";
 
 type SearchAreaProps = {
     width?: string;
@@ -53,9 +54,11 @@ export const SearchArea = ({
                     <Divider borderColor='black' />
                     <VStack w='100%' alignItems='left' overflow='auto'>
                         <SearchCheckBox text='お気に入り' onChange={(e)=>{setIsOnlyFavorite(e.target.checked)}} />
-                        <SearchCheckBox text='積読' onChange={(e)=>{handleChangeIsReadingState(e, 0)}}/>
-                        <SearchCheckBox text='読書中' onChange={(e)=>{handleChangeIsReadingState(e, 1)}}/>
-                        <SearchCheckBox text='読了' onChange={(e)=>{handleChangeIsReadingState(e, 2)}}/>
+                        {STATES.state.map((state, idx) => {
+                            return (
+                                <SearchCheckBox text={state} onChange={(e)=>{handleChangeIsReadingState(e, idx)}}/>
+                            );
+                        })}
                     </VStack>
                 </VStack>
             : null}
