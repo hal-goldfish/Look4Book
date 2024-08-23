@@ -4,7 +4,11 @@ import { GET_USER } from "../consts/API";
 
 export async function getUser(userId: number): Promise<User | null> {
     let apiIsSuccess = true;
-    const res = await axios.get(GET_USER+String(userId)+'/').catch(()=>{
+    const res = await axios.get(GET_USER,{
+        params:{
+            user_id: userId
+        }
+    }).catch(()=>{
         apiIsSuccess = false;
     });
     if(apiIsSuccess){

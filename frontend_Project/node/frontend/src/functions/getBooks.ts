@@ -5,10 +5,14 @@ import { Book } from "../types/Book";
 export async function getBooks(userId: number): Promise<Book[]>{
     let apiIsSuccess = true ;
     const res = await axios.get(GET_BOOKS, {
-        user_id: userId,
+        params: {
+            user_id: userId
+        }
     }).catch(() => {
         apiIsSuccess = false ;
     });
+    console.log(res.data);
+    if(res.data['is_success']) apiIsSuccess = false;
     if(apiIsSuccess){
         return res.data.map(book => {
             return {
