@@ -18,7 +18,7 @@ export const UserButton = ({
         <Box>
             <Button variant={variant} onClick={onClick}>
                 <AccountCircle/>
-                <Text fontSize='x-large'>{user.name}</Text>
+                {user ? <Text fontSize='x-large'>{user.name}</Text> : null}
             </Button>
         </Box>
     );
