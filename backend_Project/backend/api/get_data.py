@@ -15,6 +15,17 @@ def get_and_save_data(isbn, user_id):
 			return False
 		
 		user = User.objects.get(id=user_id)
+		user.book_count += 1
+		state_count = user.state_count.split(" ")
+		state_count[0] = str(int(state_count[0]) + 1)
+		user.state_count = " ".join(state_count)
+
+		if book.category_id != -1: # 冊数をインクリメント
+			v = user.categories_count.split(" ")
+			c = int(v[book.category_id])
+			v[book.category_id] = str(c+1)
+			user.categories_count = " ".join(v)
+		user.save()
 
 		user_book = User_Book(
 			user = user,
@@ -138,6 +149,19 @@ def get_and_save_data(isbn, user_id):
 	book.save()
 
 	user = User.objects.get(id=user_id)
+	user.book_count += 1
+
+	state_count = user.state_count.split(" ")
+	state_count[0] = str(int(state_count[0]) + 1)
+	user.state_count = " ".join(state_count)
+
+	if book.category_id != -1: # 冊数をインクリメント
+		v = user.categories_count.split(" ")
+		c = int(v[book.category_id])
+		v[book.category_id] = str(c+1)
+		user.categories_count = " ".join(v)
+	user.save()
+
 
 	user_book = User_Book(
 		user = user,
