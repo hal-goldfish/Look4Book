@@ -27,29 +27,32 @@ const Books = () => {
     return (
         <HStack h='100%' alignItems='flex-start'>
             <SearchArea
-                width="30%"
+                width="25%"
                 keyword={keyword}
                 setKeyword={setKeyword}
+                onClick={()=>{}}
                 setIsOnlyFavorite={setIsOnlyFavorite}
                 setIsReadingState={setIsReaingState}
                 setIsCheckedCategory={setIsCheckedCategory}
             />
-            <Table>
-                <Thead>
-                    <Td>タイトル</Td>
-                    <Td>ISBN</Td>
-                    <Td>筆者</Td>
-                    <Td>出版社</Td>
-                </Thead>
-                {bookList.map(book =>
-                    <Tr>
-                        <Td>{book.title}</Td>
-                        <Td>{book.isbn}</Td>
-                        <Td>{book.author}</Td>
-                        <Td>{book.publisher}</Td>
-                    </Tr>
-                )}
-            </Table>
+            <Box width='75%'>
+                <Table>
+                    <Thead>
+                        <Td>タイトル</Td>
+                        <Td>ISBN</Td>
+                        <Td>筆者</Td>
+                        <Td>出版社</Td>
+                    </Thead>
+                    {bookList.map(book =>
+                        <Tr>
+                            <Td>{book.title}</Td>
+                            <Td>{book.isbn}</Td>
+                            <Td>{book.author}</Td>
+                            <Td>{book.publisher}</Td>
+                        </Tr>
+                    )}
+                </Table>
+            </Box>
         </HStack>
     );
 };
