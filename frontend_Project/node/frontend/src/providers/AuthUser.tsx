@@ -34,8 +34,8 @@ export const AuthUserProvider = (props: Props) => {
             setIsLogin(true);
             const getUserById = async () => {
               const res = await getUser(Number(savedUserId));
-			  setUser(res);
-			  setIsUserLoading(false);
+              setUser(res);
+              setIsUserLoading(false);
             };
             getUserById();
             setToken(savedToken);

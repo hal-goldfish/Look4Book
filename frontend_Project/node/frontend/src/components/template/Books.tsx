@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
-import { Book } from "../../types/Book";
 import { getBooks } from "../../functions/getBooks";
-import { Box, Flex, Table, Td, Thead, Tr, VStack, HStack } from "@chakra-ui/react";
+import { Box, Flex, Table, Td, Thead, Tr, VStack, HStack, Text, Button } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
 import SearchArea from "../orgnism/SearchArea";
 import { CATEGORIES_NUM } from "../../consts/Categories";
+import { MyBook } from "../../types/MyBook";
+import { Star, StarBorder } from "@mui/icons-material";
 
 const Books = () => {
     const {user} = useAuthUserContext();
-    const [bookList, setBookList] = useState<Book[]>([]);
+    const [bookList, setBookList] = useState<MyBook[]>([]);
     const [keyword, setKeyword] = useState<String>('');
     const [isOnlyFavorite, setIsOnlyFavorite] = useState<boolean>(false);
     const [isReadingState, setIsReaingState] = useState<boolean[]>([false,false,false]);
@@ -35,20 +36,27 @@ const Books = () => {
                 setIsReadingState={setIsReaingState}
                 setIsCheckedCategory={setIsCheckedCategory}
             />
-            <Box width='75%'>
+            <Box width='75%' h='100%' overflow='auto'>
                 <Table>
                     <Thead>
                         <Td>タイトル</Td>
-                        <Td>ISBN</Td>
                         <Td>筆者</Td>
                         <Td>出版社</Td>
+                        <Td>カテゴリ</Td>
                     </Thead>
                     {bookList.map(book =>
                         <Tr>
-                            <Td>{book.title}</Td>
-                            <Td>{book.isbn}</Td>
+                            <Td>
+                                <HStack>
+                                    <Button bg='transparent' variant='link'>
+                                        {book.favorite ? <Star/> : <StarBorder/>}
+                                    </Button>
+                                    <Text>{book.title}</Text>
+                                </HStack>
+                            </Td>
                             <Td>{book.author}</Td>
                             <Td>{book.publisher}</Td>
+                            <Td>{book.categoryName}</Td>
                         </Tr>
                     )}
                 </Table>
