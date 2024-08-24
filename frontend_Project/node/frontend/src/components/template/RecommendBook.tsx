@@ -1,11 +1,24 @@
-import React from "react";
-import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
+import SearchArea from "../orgnism/SearchArea";
+import { CATEGORIES_NUM } from "../../consts/Categories";
 
 const RecommendBook = () => {
+    const [keyword, setKeyword] = useState<String>('');
+    const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
     return(
-        <Text>本をおすすめする</Text>
+        <HStack w='100%' h='100%' alignItems='flex-start'>
+            <SearchArea
+                width="25%"
+                keyword={keyword}
+                setKeyword={setKeyword}
+                onClick={()=>{}}
+                showStateOption={false}
+                setIsCheckedCategory={setIsCheckedCategory}
+            />
+        </HStack>
     );
 }
 
