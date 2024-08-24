@@ -1,4 +1,4 @@
-import { Flex, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Text, Image, Divider, AbsoluteCenter, HStack, VStack, Spacer } from "@chakra-ui/react";
+import { Flex, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Text, Image, Divider, AbsoluteCenter, HStack, VStack, Spacer } from "@chakra-ui/react";
 import React from "react";
 import { MyBook } from "../../types/MyBook";
 import DetailLabel from "../atoms/DetailLabel";
@@ -9,7 +9,7 @@ import DeleteButton from "./DeleteButton";
 type MyBookDetailModalProps = {
     isOpen: boolean;
     onClose: ()=>void;
-    image: string;
+    image: string | string[];
     book: MyBook;
     options: {
 		name: String;
