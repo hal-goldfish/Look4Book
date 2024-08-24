@@ -138,7 +138,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/image/'
 
 CORS_ORIGIN_WHITELIST = [
-    '*',
+    'http://localhost:3000',
 ]
 
 STATIC_URL = "static/"
