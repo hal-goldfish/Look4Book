@@ -42,19 +42,19 @@ def book_list(request):
 		if not "user_id" in request.POST:
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
-		res = User_Book.objects.filter(_user_id = request.POST.get("user_id"))
+		res = User_Book.objects.filter(_user_id = request.POST.get("user_id"), is_delete="false")
 
 		if "category_id" in request.POST:
 			categories = request.POST.get("category_id").split(" ")
-			res = res.filter(category_id__in = categories)
+			res = res.filter(category_id__in = categories, is_delete="false")
 
 		if "favorite" in request.POST:
 			favs = request.POST.get("favorite").split(" ")
-			res = res.filter(favorite__in = favs)
+			res = res.filter(favorite__in = favs, is_delete="false")
 
 		if "state" in request.POST:
 			states = request.POST.get("state").split(" ")
-			res = res.filter(state__in = states)
+			res = res.filter(state__in = states, is_delete="false")
 
 		if "sort_by" in request.POST:
 			res = res.order_by(request.POST.get("sort_by"))
@@ -99,7 +99,7 @@ def book_detail(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		if not ("book_id" in request.GET):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
-		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
+		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false")
 		return JsonResponse(User_BookSerializer(book).data, safe = False)
 	
 	
@@ -111,7 +111,7 @@ def book_edit(request):
 		if not ("book_id" in request.GET):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
-		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
+		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false")
 		user = User.objects.get(id = request.GET.get("user_id"))
 
 		if "state" in request.POST: # state 処理
@@ -140,10 +140,45 @@ def book_regist(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 		if get_and_save_data(request.GET.get("ISBN"), request.GET.get("user_id")):
-			book = User_Book.objects.get(_user_id = request.GET.get("user_id"), ISBN = request.GET.get("ISBN"))
+			book = User_Book.objects.get(_user_id = request.GET.get("user_id"), ISBN = request.GET.get("ISBN"), is_delete="false")
 		else:
 			return JsonResponse({"is_success": "false", "status": "something wrong"})
 		return JsonResponse({"is_success": "true", "book_id": book._book_id})
+
+
+def book_delete(request):
+	if request.method == 'GET':
+		if not ("user_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not ("book_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		
+	if User_Book.objects.filter(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false").exists():
+		user_book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false")
+		user = User.objects.get(id = request.GET.get("user_id"))
+
+		user.book_count -= 1
+
+		state = user_book.state
+		state_count = user.state_count.split(" ")
+		state_count[state] = str(int(state_count[state]) - 1)
+		user.state_count = " ".join(state_count)
+
+		cat = user_book.category_id
+		if 0 <= cat :
+			cat_count = user.categories_count.split(" ")
+			cat_count[cat] = str(int(cat_count[cat]) - 1)
+			user.cat_count = " ".join(cat_count)
+
+		user_book.is_delete = "true"
+		user_book.save()
+		user.save()
+
+		JsonResponse({"is_success": "true"})
+
+	else:
+		return JsonResponse({"is_success": "false", "status": "user dont have this book"})
+
 	
 
 @csrf_exempt
@@ -172,8 +207,6 @@ def book_suggest(request):
 
 		return JsonResponse(dict, safe=False)
 
-
-	
 
 def user(request):
 	if request.method == 'GET':
