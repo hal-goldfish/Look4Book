@@ -9,3 +9,6 @@ openai
 python-dotenv
 django-environ
 whitenoise
+gensim
+scikit-learn
+numpy

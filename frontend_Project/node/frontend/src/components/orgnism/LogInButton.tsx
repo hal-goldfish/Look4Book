@@ -8,8 +8,8 @@ import { useAuthUserContext } from "../../providers/AuthUser";
 
 export const LogInButton = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [userName, setUserName] = useState<String>('');
-    const [password, setPassword] = useState<String>('');
+    const [userName, setUserName] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [isInvalidUserName, setIsInvalidUserName] = useState(true);
     const [isInvalidPassword, setIsInvalidPassword] = useState(true);
     const [errorMessage, setErrorMessage] = useState<String | null>(null);

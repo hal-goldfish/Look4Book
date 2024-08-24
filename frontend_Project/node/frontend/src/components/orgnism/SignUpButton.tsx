@@ -10,9 +10,9 @@ import { useAuthUserContext } from "../../providers/AuthUser";
 
 export const SignUpButton = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [userName, setUserName] = useState<String>('');
-    const [password, setPassword] = useState<String>('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState<String>('');
+    const [userName, setUserName] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
     const [isInvalidUserName, setIsInvalidUserName] = useState(true);
     const [isInvalidPassword, setIsInvalidPassword] = useState(true);
     const [isInvalidPasswordConfirmation, setIsInvalidPasswordConfirmation] = useState(true);
@@ -20,21 +20,21 @@ export const SignUpButton = () => {
     const {signin} = useAuthUserContext();
     const router = useRouter();
 
-    const onChangeUserName = (e) => {
+    const onChangeUserName = (e: any) => {
         setUserName(e.target.value);
     };
     useEffect(()=>{
         setIsInvalidUserName(userName.length===0 || userName.length>15);
     },[userName]);
 
-    const onChangePassword = (e) => {
+    const onChangePassword = (e: any) => {
         setPassword(e.target.value);
     };
     useEffect(()=>{
         setIsInvalidPassword(password.length===0);
     },[password]);
 
-    const onChangePasswordConfirmation = (e) => {
+    const onChangePasswordConfirmation = (e: any) => {
         setPasswordConfirmation(e.target.value);
     };
     useEffect(()=>{

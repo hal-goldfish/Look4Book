@@ -7,7 +7,7 @@ type CardRadioButtonsProps = {
 		name: String;
 		id: Number;
 	}[];
-	setValue: any
+	setValue: any;
 	defaultValue: Number;
 }
 
