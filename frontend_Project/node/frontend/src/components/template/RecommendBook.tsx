@@ -3,10 +3,11 @@ import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
 import SearchArea from "../orgnism/SearchArea";
-import { CATEGORIES_NUM } from "../../consts/Categories";
+import { CATEGORIES, CATEGORIES_NUM } from "../../consts/Categories";
 import { Book } from "../../types/Book";
 import { suggestBook } from "../../functions/suggestBoook";
 import { useAuthUserContext } from "../../providers/AuthUser";
+import BookCard from "../orgnism/BookCard";
 
 const RecommendBook = () => {
     const {user} = useAuthUserContext();
@@ -39,20 +40,17 @@ const RecommendBook = () => {
                 <VStack>
                     {bookListByCategory.map(value => {
                         return (
-                            <VStack minW='100%' maxW='100%' align='left' >
-                                <Text fontSize='x-large' fontWeight='bold'>{value.category}</Text>
+                            <VStack minW='100%' maxW='100%' p={2} align='left' bg='rgba(200,100,0,0.5)'>
+                                <Text fontSize='x-large' fontWeight='bold'>
+                                    {value.category==='other' ? 'その他' : CATEGORIES.categories[Number(value.category)]}
+                                </Text>
                                 {value.books.length===0
                                 ? <Text fontSize='x-large'>本が登録されていません</Text> :
-                                <HStack overflowX='auto'>
+                                <HStack overflowX='auto' overflowY='hidden'>
                                     {value.books.map(book => {
                                         return (
                                             <>
-                                            <Box minW='150px' maxW='150px' minH='200px' maxH='200px' bg='lightblue'>
-                                                <Text>{book.title}</Text>
-                                            </Box>
-                                            <Box minW='150px' maxW='150px' h='200px' bg='lightblue'>
-                                                <Text>{book.title}</Text>
-                                            </Box>
+                                                <BookCard book={book}/>
                                             </>
                                         );
                                     })}

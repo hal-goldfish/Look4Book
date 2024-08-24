@@ -7,7 +7,6 @@ import CardRadioButtons from "../molecules/CardRadioButtons";
 import FavoriteButton from "../molecules/FavoriteButton";
 import { editBook } from "../../functions/editBookState";
 import MyBookDetailModal from "../molecules/MyBookDetailModal";
-import { getBookImage } from "../../functions/getBookImage";
 
 type MyBookCardPops = {
     book: MyBook;
@@ -37,10 +36,6 @@ export const MyBookCard = ({
             isClosable: true,
             duration: 1000,
         })
-    };
-    const getImageById = async () => {
-        const res = await getBookImage(book.ISBN);
-        setImage(res);
     };
     const handleEditBook = async () => {
         const res = await editBook(book.userId, book.bookId, readingState, isFavorite);
