@@ -15,10 +15,10 @@ type MyBookDetailModalProps = {
 		name: String;
 		id: Number;
 	}[];
-	setReadingState;
+	setReadingState: any;
 	readingState: Number;
     isFavorite: Boolean;
-    setIsFavorite;
+    setIsFavorite: any;
     handleDelete: ()=>void;
 };
 
@@ -51,7 +51,7 @@ export const MyBookDetailModal = ({
                 <ModalBody mt={2}>
                     <HStack alignItems='flex-start'>
                         <Box w='40%'>
-                            <Image w='100%' objectFit='cover' src={image}/>
+                            <Image w='100%' objectFit='cover' src={image as string}/>
                         </Box>
                         <Box w='60%' h='100%' pt={2}>
                             <VStack alignItems='flex-start'>

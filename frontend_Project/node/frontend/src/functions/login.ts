@@ -8,7 +8,7 @@ export async function login(userName: string, password: string): Promise<{
     token?: string;
 }>{
     let apiIsSuccess = true;
-    const res = await axios.post(POST_LOGIN, {
+    const res: any = await axios.post(POST_LOGIN, {
         name: userName,
         password: password,
     }).catch(() => {

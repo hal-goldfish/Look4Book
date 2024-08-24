@@ -13,7 +13,7 @@ import { searchBooks } from "../../functions/searchBooks";
 const Books = () => {
     const {user} = useAuthUserContext();
     const [bookList, setBookList] = useState<MyBook[]>([]);
-    const [keyword, setKeyword] = useState<String>('');
+    const [keyword, setKeyword] = useState<string>('');
     const [isOnlyFavorite, setIsOnlyFavorite] = useState<boolean>(false);
     const [isReadingState, setIsReaingState] = useState<boolean[]>([false,false,false]);
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));

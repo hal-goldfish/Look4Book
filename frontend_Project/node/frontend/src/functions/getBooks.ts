@@ -5,9 +5,9 @@ import { CATEGORIES } from "../consts/Categories";
 import { STATES } from "../consts/States";
 import { getBookImage } from "./getBookImage";
 
-export async function getBooks(userId: Number): Promise<MyBook[]>{
+export async function getBooks(userId: number): Promise<MyBook[]>{
     let apiIsSuccess = true ;
-    const res = await axios.post(POST_BOOKS, {
+    const res: any = await axios.post(POST_BOOKS, {
         user_id: userId,
     }, {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}

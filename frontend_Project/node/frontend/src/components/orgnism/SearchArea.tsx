@@ -7,13 +7,13 @@ import { STATES } from "../../consts/States";
 
 type SearchAreaProps = {
     width?: string;
-    keyword: String;
-    setKeyword;
+    keyword: string;
+    setKeyword: any;
     onClick: ()=>void;
     showStateOption?: boolean;
-    setIsOnlyFavorite?;
-    setIsReadingState?;
-    setIsCheckedCategory;
+    setIsOnlyFavorite?: any;
+    setIsReadingState?: any;
+    setIsCheckedCategory: any;
 };
 
 export const SearchArea = ({
@@ -26,13 +26,13 @@ export const SearchArea = ({
     setIsReadingState,
     setIsCheckedCategory,
 }: SearchAreaProps) => {
-    const handleChangeIsReadingState = (e, stateNum: number) => {
-        setIsReadingState((prev) => prev.map((value, idx) => {
+    const handleChangeIsReadingState = (e: any, stateNum: number) => {
+        setIsReadingState((prev: boolean[]) => prev.map((value, idx) => {
             return idx === stateNum ? e.target.checked : value;
         }));
     };
-    const handleChangeIsCheckedCategory = (e, categoryNum: number) => {
-        setIsCheckedCategory((prev) => prev.map((value, idx) => {
+    const handleChangeIsCheckedCategory = (e: any, categoryNum: number) => {
+        setIsCheckedCategory((prev: boolean[]) => prev.map((value, idx) => {
             return idx === categoryNum ? e.target.checked : value;
         }));
     };
@@ -53,7 +53,7 @@ export const SearchArea = ({
                     </Flex>
                     <Divider borderColor='black' />
                     <VStack w='100%' alignItems='left' overflow='auto'>
-                        <SearchCheckBox text='お気に入り' onChange={(e)=>{setIsOnlyFavorite(e.target.checked)}} />
+                        <SearchCheckBox text='お気に入り' onChange={(e: any)=>{setIsOnlyFavorite(e.target.checked)}} />
                         {STATES.state.map((state, idx) => {
                             return (
                                 <SearchCheckBox text={state} onChange={(e)=>{handleChangeIsReadingState(e, idx)}}/>

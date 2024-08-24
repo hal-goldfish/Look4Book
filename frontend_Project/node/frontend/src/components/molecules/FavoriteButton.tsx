@@ -4,7 +4,7 @@ import React from "react";
 
 type FavoriteButtonProps = {
     isClicked: Boolean;
-    setIsClicked;
+    setIsClicked: any;
     color?: string;
     showLabel?: boolean;
 };

@@ -10,7 +10,7 @@ import { useAuthUserContext } from "../../providers/AuthUser";
 
 const RecommendBook = () => {
     const {user} = useAuthUserContext();
-    const [keyword, setKeyword] = useState<String>('');
+    const [keyword, setKeyword] = useState<string>('');
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
     const [bookListByCategory, setBookListByCategory] = useState<{
         category: string;
@@ -18,6 +18,7 @@ const RecommendBook = () => {
     }[]>([]);
 
     const getSuggestBooks = async () => {
+        if(!user) return;
         const res = await suggestBook(user.id, isCheckedCategory);
         setBookListByCategory(res);
     };

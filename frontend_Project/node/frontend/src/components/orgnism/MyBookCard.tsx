@@ -26,11 +26,11 @@ export const MyBookCard = ({
     const toast = useToast();
     const isPreventEdit = useRef(true);
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const options = STATES.state.map(state => {
-        return {name: state, id: STATES.id[state]}
+    const options = STATES.state.map((state, idx) => {
+        return {name: state, id: idx}
     });
 
-    const openToast = (text:string, status:string) => {
+    const openToast = (text:string, status:"success" | "error") => {
         toast({
             title: text,
             status: status,
@@ -74,7 +74,7 @@ export const MyBookCard = ({
                 <Card w='100%' h='100%' variant='filled'>
                     <CardBody h='80%' p={1}>
                         <Flex w='100%' h='90%' justify='center'>
-                            <Image objectFit='cover' src={image} />
+                            <Image objectFit='cover' src={image as string} />
                         </Flex>
                         <Flex h='10%' justify='left' overflow='hidden'>
                             <Text w='100%' fontSize='x-small'>{book.title}</Text>

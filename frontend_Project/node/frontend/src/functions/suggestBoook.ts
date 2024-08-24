@@ -17,7 +17,7 @@ export async function suggestBook(userId: Number, isCheckedCategories: boolean[]
         }
     }).filter(value=>value!='');
     const category_id = categoryList.length>0 ? categoryList.join(' ') : null;
-    const res = await axios.post(POST_BOOK_SUGGEST, {
+    const res: any = await axios.post(POST_BOOK_SUGGEST, {
         user_id: userId,
         category_id: category_id,
     }, {

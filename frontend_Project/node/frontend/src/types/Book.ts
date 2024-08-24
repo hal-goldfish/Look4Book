@@ -4,7 +4,7 @@ export type Book = {
     title: string;
     author: string;
     publisher: string;
-    categoryId: Number;
+    categoryId: number;
     categoryName: string;
     image?: string | string[]
 };
