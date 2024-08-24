@@ -8,6 +8,7 @@ import CardRadioButtons from "../molecules/CardRadioButtons";
 import FavoriteButton from "../molecules/FavoriteButton";
 import { editBook } from "../../functions/editBookState";
 import MyBookDetailModal from "../molecules/MyBookDetailModal";
+import { duration } from "@mui/material";
 
 type MyBookCardPops = {
     book: MyBook;
@@ -35,6 +36,7 @@ export const MyBookCard = ({
             title: text,
             status: status,
             isClosable: true,
+            duration: 1000,
         })
     };
     const getImageById = async () => {
@@ -48,6 +50,9 @@ export const MyBookCard = ({
         }else{
             openToast('更新できませんでした', 'error');
         }
+    };
+    const handleDelete = () => {
+        // TODO: 本棚から削除する処理を書く
     };
 
     useEffect(() => {
@@ -80,13 +85,24 @@ export const MyBookCard = ({
                                 <CardRadioButtons options={options} setValue={setReadingState} defaultValue={readingState}/>
                             </Box>
                             <Flex w='30%' h='100%'>
-                                <FavoriteButton isClicked={isFavorite} setIsClicked={setIsFavorite} color='lightblue'/>
+                                <FavoriteButton isClicked={isFavorite} setIsClicked={setIsFavorite}/>
                             </Flex>
                         </HStack>
                     </CardFooter>
                 </Card>
             </Box>
-            <MyBookDetailModal isOpen={isOpen} onClose={onClose} image={image}/>
+            <MyBookDetailModal
+                isOpen={isOpen}
+                onClose={onClose}
+                image={image}
+                book={book}
+                options={options}
+                setReadingState={setReadingState}
+                readingState={readingState}
+                isFavorite={isFavorite}
+                setIsFavorite={setIsFavorite}
+                handleDelete={handleDelete}
+            />
         </>
     );
 };
