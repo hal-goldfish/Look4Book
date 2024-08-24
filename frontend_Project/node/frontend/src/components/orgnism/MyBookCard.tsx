@@ -57,12 +57,13 @@ export const MyBookCard = ({
         }
         handleEditBook();
     },[readingState, isFavorite]);
+
     return (
         <Box width={width} height={height}>
             <Card w='100%' h='100%' variant='filled'>
                 <CardBody h='80%' p={1}>
-                    <Flex w='100%' h='90%' borderColor='black' borderWidth='2px'>
-                        <Image w='100%' h='100%' src={imageNotFound} />
+                    <Flex w='100%' h='90%' justify='center'>
+                        <Image objectFit='cover' src={image} />
                     </Flex>
                     <Flex h='10%' justify='left' overflow='hidden'>
                         <Text w='100%' fontSize='x-small'>{book.title}</Text>

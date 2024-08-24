@@ -19,7 +19,7 @@ export async function getBooks(userId: Number): Promise<MyBook[]>{
         return res.data.map(book => {
             const res: MyBook =  {
                 userId: userId,
-                bookId: book['id'],
+                bookId: book['_book_id'],
                 ISBN: book['ISBN'],
                 title: book['title'],
                 author: book['author'],
