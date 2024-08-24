@@ -46,8 +46,8 @@ class Categories:
 		"絵本・児童書": 16,
 		"コミックス": 17,
 	}
- 
- 
+	e = ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+
 
 
 class Book(models.Model):
@@ -70,6 +70,10 @@ class User(models.Model):
 	password = models.CharField(max_length=20, default="password")
 	books = models.ManyToManyField(Book)
 	role = models.CharField(max_length = 20, default="user")
+     
+	book_count = models.IntegerField(default=0) # 冊数
+	state_count = models.TextField(default = " ".join(['0', '0', '0']))
+	categories_count = models.TextField(default = " ".join(Categories.e)) # カテゴリごとの冊数
 
 	def __str__(self):
 		return self.name
@@ -83,7 +87,10 @@ class User_Book(models.Model):
     _user_id = models.IntegerField()
     _book_id = models.IntegerField()
     
+	# 0: 未読, 1: 読了
     state = models.IntegerField(default=0)
+    # 1: お気に入り
+    favorite = models.IntegerField(default=0)
     regist_date = models.DateTimeField()
     
     ISBN = models.CharField(max_length=13)
@@ -94,6 +101,8 @@ class User_Book(models.Model):
     book_cover = models.ImageField(upload_to = 'images/', null=True)
     category_id = models.IntegerField(null = True)
     vector = models.BinaryField(null = True)
+    
+    is_delete = models.CharField(max_length=10, default="false")
     
     def __str__(self):
         return self.user.name + " : " + self.title

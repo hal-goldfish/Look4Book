@@ -1,5 +1,4 @@
 import axios from "axios";
-import router from "next/router";
 import { POST_LOGIN } from "../consts/API";
 import { User } from "../types/User";
 
@@ -9,7 +8,7 @@ export async function login(userName: string, password: string): Promise<{
     token?: string;
 }>{
     let apiIsSuccess = true;
-    const res = await axios.post(POST_LOGIN, {
+    const res: any = await axios.post(POST_LOGIN, {
         name: userName,
         password: password,
     }).catch(() => {
@@ -26,7 +25,10 @@ export async function login(userName: string, password: string): Promise<{
         const user: User = {
             id: res.data['id'],
             name: res.data['name'],
-            role: 'user',
+            role: res.data['role'],
+            bookCount: Number(res.data['book_count']),
+            stateCount: String(res.data['state_count']).split(' ').map(value => Number(value)),
+            categoryCount: String(res.data['categories_count']).split(' ').map(value => Number(value)),
         }
         return {
             isSuccess: true,
