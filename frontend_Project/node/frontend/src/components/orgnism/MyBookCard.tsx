@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MyBook } from "../../types/MyBook";
-import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, useDisclosure, useToast, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
-import { getBookImage } from "../../functions/getBookImage";
+import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { imageNotFound } from "../../consts/IMAGE";
 import { STATES } from "../../consts/States";
 import CardRadioButtons from "../molecules/CardRadioButtons";
 import FavoriteButton from "../molecules/FavoriteButton";
 import { editBook } from "../../functions/editBookState";
 import MyBookDetailModal from "../molecules/MyBookDetailModal";
-import { duration } from "@mui/material";
+import { getBookImage } from "../../functions/getBookImage";
 
 type MyBookCardPops = {
     book: MyBook;
@@ -21,11 +20,11 @@ export const MyBookCard = ({
     width='150px',
     height='200px',
 }:MyBookCardPops) => {
-    const [image, setImage] = useState(imageNotFound);
+    const [image, setImage] = useState<string | string[]>(imageNotFound);
     const [readingState, setReadingState] = useState(book.stateId);
     const [isFavorite, setIsFavorite] = useState(book.favorite);
     const toast = useToast();
-    const isFirstTime = useRef(true);
+    const isPreventEdit = useRef(true);
     const {isOpen, onOpen, onClose} = useDisclosure();
     const options = STATES.state.map(state => {
         return {name: state, id: STATES.id[state]}
@@ -56,11 +55,14 @@ export const MyBookCard = ({
     };
 
     useEffect(() => {
-        getImageById();
-    },[]);
+        if(book.image) setImage(book.image);
+        setIsFavorite(book.favorite);
+        setReadingState(book.stateId);
+        isPreventEdit.current = true;
+    },[book]);
     useEffect(()=>{
-        if(isFirstTime.current){
-            isFirstTime.current = false;
+        if(isPreventEdit.current){
+            isPreventEdit.current = false;
             return;
         }
         handleEditBook();
