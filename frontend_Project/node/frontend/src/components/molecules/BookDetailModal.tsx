@@ -10,6 +10,7 @@ type BookDetailModalProps = {
     image: string | string[];
     book: Book;
     handleAdd: ()=>void;
+    isRegistered:  boolean;
 };
 
 export const BookDetailModal = ({
@@ -18,6 +19,7 @@ export const BookDetailModal = ({
     image,
     book,
     handleAdd,
+    isRegistered,
 }: BookDetailModalProps) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -54,7 +56,7 @@ export const BookDetailModal = ({
                 <ModalFooter>
                     <HStack w='100%' h='100%' spacing={1}>
                         <Button variant='ghost'>
-                            <AddButton handleAdd={handleAdd} showLabel={true}/>
+                            <AddButton isRegistered={isRegistered} handleAdd={handleAdd} showLabel={true}/>
                         </Button>
                     </HStack>
                 </ModalFooter>

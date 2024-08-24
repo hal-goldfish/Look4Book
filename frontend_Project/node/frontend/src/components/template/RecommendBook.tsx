@@ -6,6 +6,7 @@ import SearchArea from "../orgnism/SearchArea";
 import { CATEGORIES, CATEGORIES_NUM } from "../../consts/Categories";
 import { Book } from "../../types/Book";
 import { suggestBook } from "../../functions/suggestBoook";
+import { getBooks } from "../../functions/getBooks";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import BookCard from "../orgnism/BookCard";
 
@@ -50,7 +51,7 @@ const RecommendBook = () => {
                                     {value.books.map(book => {
                                         return (
                                             <>
-                                                <BookCard book={book}/>
+                                                <BookCard userId={user?.id||-1} book={book}/>
                                             </>
                                         );
                                     })}

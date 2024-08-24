@@ -48,8 +48,8 @@ const Books = () => {
                 setIsReadingState={setIsReaingState}
                 setIsCheckedCategory={setIsCheckedCategory}
             />
-            <Box width='75%' h='100%' overflow='auto'>
-                <Grid templateColumns='repeat(6, 1fr)' gap={5}>
+            <Box width='75%' maxH='100%' overflow='auto'>
+                <Grid templateColumns='repeat(5, 1fr)' gap={5}>
                     {
                         bookList.map(book => {
                             return (
@@ -68,7 +68,7 @@ export const BooksTemplate = () => {
         <VStack bgImage={commonBG} bgSize='cover' bgRepeat='no-repeat' h='100vh' overflow='hidden'>
             <Header curPage='本棚'/>
             <Flex w='100%' h='90vh' alignItems='center' justify='center'>
-                <Box alignItems='center' w='90%' maxW='90%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px' overflow='auto'>
+                <Box alignItems='center' w='90%' maxW='90%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px'>
                     <Books/>
                 </Box>
             </Flex>
