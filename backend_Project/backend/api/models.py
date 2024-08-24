@@ -100,6 +100,8 @@ class User_Book(models.Model):
     book_cover = models.ImageField(upload_to = 'images/', null=True)
     category_id = models.IntegerField(null = True)
     
+    is_delete = models.CharField(max_length=10, default="false")
+    
     def __str__(self):
         return self.user.name + " : " + self.title
 
