@@ -1,9 +1,10 @@
 export type Book = {
-    id: Number;
-    ISBN: String;
-    title: String;
-    author: String;
-    publisher: String;
-    categoryId: Number;
-    categoryName: String;
+    id: number;
+    ISBN: string;
+    title: string;
+    author: string;
+    publisher: string;
+    categoryId: number;
+    categoryName: string;
+    image?: string | string[]
 };

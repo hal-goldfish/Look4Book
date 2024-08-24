@@ -4,7 +4,7 @@ import React from "react";
 
 type FavoriteButtonProps = {
     isClicked: Boolean;
-    setIsClicked;
+    setIsClicked: any;
     color?: string;
     showLabel?: boolean;
 };
@@ -19,7 +19,7 @@ export const FavoriteButton = ({
         e.stopPropagation();
         setIsClicked(!isClicked);
     }
-    const label = 'お気に入り-'+(isClicked? '解除': '登録');
+    const label = 'お気に入り '+(isClicked? '解除': '登録');
     return (
         <Button w='100%' p={1} color={color} variant='ghost' onClick={(e) => {handleClick(e)}}>
             {
