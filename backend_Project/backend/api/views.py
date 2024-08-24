@@ -80,6 +80,19 @@ def book_get(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 
+def book_isHaving(request):
+	if request.method == 'GET':
+		if not "user_id" in request.GET:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not "book_id" in request.GET:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+
+		if User_Book.objects.filter(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id")).exists():
+			return JsonResponse({"is_success": "true", "is_having": "true"})
+		else:
+			return JsonResponse({"is_success": "true", "is_having": "false"})
+		
+
 def book_detail(request):
 	if request.method == 'GET':
 		if not ("user_id" in request.GET):
@@ -132,6 +145,7 @@ def book_regist(request):
 			return JsonResponse({"is_success": "false", "status": "something wrong"})
 		return JsonResponse({"is_success": "true", "book_id": book._book_id})
 	
+
 @csrf_exempt
 def book_suggest(request):
 	if request.method == 'POST':
