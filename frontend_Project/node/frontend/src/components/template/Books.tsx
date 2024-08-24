@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
-import { Book } from "../../types/Book";
 import { getBooks } from "../../functions/getBooks";
-import { Box, Flex, Table, Td, Thead, Tr, VStack } from "@chakra-ui/react";
+import { Box, Flex, Table, Td, Thead, Tr, VStack, HStack, Text, Button } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
+import SearchArea from "../orgnism/SearchArea";
+import { CATEGORIES_NUM } from "../../consts/Categories";
+import { MyBook } from "../../types/MyBook";
+import MyBookCard from "../orgnism/MyBookCard";
 
 const Books = () => {
     const {user} = useAuthUserContext();
-    const [bookList, setBookList] = useState<Book[]>([]);
+    const [bookList, setBookList] = useState<MyBook[]>([]);
+    const [keyword, setKeyword] = useState<String>('');
+    const [isOnlyFavorite, setIsOnlyFavorite] = useState<boolean>(false);
+    const [isReadingState, setIsReaingState] = useState<boolean[]>([false,false,false]);
+    const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
 
     const getBooksByUserId = async () => {
         if(!user) return ;
@@ -19,22 +26,26 @@ const Books = () => {
         getBooksByUserId();
     },[]);
     return (
-        <Table>
-            <Thead>
-                <Td>タイトル</Td>
-                <Td>ISBN</Td>
-                <Td>筆者</Td>
-                <Td>出版社</Td>
-            </Thead>
-            {bookList.map(book =>
-                <Tr>
-                    <Td>{book.title}</Td>
-                    <Td>{book.isbn}</Td>
-                    <Td>{book.author}</Td>
-                    <Td>{book.publisher}</Td>
-                </Tr>
-            )}
-        </Table>
+        <HStack h='100%' alignItems='flex-start'>
+            <SearchArea
+                width="25%"
+                keyword={keyword}
+                setKeyword={setKeyword}
+                onClick={()=>{}}
+                setIsOnlyFavorite={setIsOnlyFavorite}
+                setIsReadingState={setIsReaingState}
+                setIsCheckedCategory={setIsCheckedCategory}
+            />
+            <Box width='75%' h='100%' overflow='auto'>
+                {
+                    bookList.map(book => {
+                        return (
+                            <MyBookCard book={book}/>
+                        );
+                    })
+                }
+            </Box>
+        </HStack>
     );
 };
 

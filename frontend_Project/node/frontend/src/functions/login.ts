@@ -26,6 +26,9 @@ export async function login(userName: string, password: string): Promise<{
             id: res.data['id'],
             name: res.data['name'],
             role: res.data['role'],
+            bookCount: Number(res.data['book_count']),
+            stateCount: String(res.data['state_count']).split(' ').map(value => Number(value)),
+            categoryCount: String(res.data['categories_count']).split(' ').map(value => Number(value)),
         }
         return {
             isSuccess: true,
