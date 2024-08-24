@@ -1,11 +1,11 @@
 import axios from "axios";
-import { GET_BOOK_IMAGE } from "../consts/API";
+import { GET_BOOK_IMAGE_BY_ISBN } from "../consts/API";
 
-export async function getBookImage(bookId: Number) {
+export async function getBookImage(ISBN: String) {
     let apiIsSuccess = true;
-    const res = axios.get(GET_BOOK_IMAGE, {
+    const res = axios.get(GET_BOOK_IMAGE_BY_ISBN, {
         params: {
-            book_id: bookId,
+            ISBN: ISBN,
         }
     }).catch(() => {
         apiIsSuccess = false;

@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MyBook } from "../../types/MyBook";
-import { Box, Card, CardBody } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { getBookImage } from "../../functions/getBookImage";
+import { imageNotFound } from "../../consts/IMAGE";
+import { STATES } from "../../consts/States";
+import CardRadioButtons from "../molecules/CardRadioButtons";
+import FavoriteButton from "../molecules/FavoriteButton";
 
 type MyBookCardPops = {
     book: MyBook;
@@ -14,14 +18,44 @@ export const MyBookCard = ({
     width='150px',
     height='200px',
 }:MyBookCardPops) => {
-    console.log(book);
-    const image = getBookImage(book.bookId);
-    return (
-        <Box width={width} height={height} bg='red'>
-            <Card w='100%' h='100%' p={5}>
-                <CardBody>
+    const [image, setImage] = useState(imageNotFound);
+    const getImageById = async () => {
+        const res = await getBookImage(book.ISBN);
+        setImage(res);
+    };
+    useEffect(() => {
+        getImageById();
+    },[]);
+    const options = STATES.state.map(state => {
+        return {name: state, id: STATES.id[state]}
+    });
+    const [readingState, setReadingState] = useState(book.stateId);
+    const [isFavorite, setIsFavorite] = useState(false);
+    useEffect(()=>{
 
+    },[readingState, isFavorite]);
+    return (
+        <Box width={width} height={height}>
+            <Card w='100%' h='100%' variant='filled'>
+                <CardBody h='80%' p={1}>
+                    <Flex w='100%' h='90%' borderColor='black' borderWidth='2px'>
+                        <Image w='100%' h='100%' src={imageNotFound} />
+                    </Flex>
+                    <Flex h='10%' justify='left' overflow='hidden'>
+                        <Text w='100%' fontSize='x-small'>{book.title}</Text>
+                    </Flex>
                 </CardBody>
+                <Divider/>
+                <CardFooter w='100%' h='20%' py={1} px={0}>
+                    <HStack w='100%' h='100%' spacing={1}>
+                        <Box w='70%' h='100%'>
+                            <CardRadioButtons options={options} setValue={setReadingState} defaultValue={readingState}/>
+                        </Box>
+                        <Flex w='30%' h='100%'>
+                            <FavoriteButton isClicked={isFavorite} setIsClicked={setIsFavorite} color='lightblue'/>
+                        </Flex>
+                    </HStack>
+                </CardFooter>
             </Card>
         </Box>
     );
