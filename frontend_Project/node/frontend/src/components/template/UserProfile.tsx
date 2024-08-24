@@ -23,7 +23,7 @@ const UserProfile = () => {
 export const UserProfileTemplate = () => {
     return (
         <VStack bgImage={commonBG} bgSize='cover' bgRepeat='no-repeat' h='100vh' overflow='hidden'>
-            <Header curPage='本棚'/>
+            <Header curPage='プロフィール'/>
             <Flex w='100%' h='90vh' alignItems='center' justify='center'>
                 <Box alignItems='center' w='90%' maxW='90%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px' overflow='auto'>
                     <UserProfile/>
