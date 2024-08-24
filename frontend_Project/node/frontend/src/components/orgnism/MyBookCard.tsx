@@ -72,7 +72,7 @@ export const MyBookCard = ({
                 <Divider/>
                 <CardFooter w='100%' h='20%' py={1} px={0}>
                     <HStack w='100%' h='100%' spacing={1}>
-                        <Box w='70%' h='100%'>
+                        <Box w='70%' h='100%' pl={1}>
                             <CardRadioButtons options={options} setValue={setReadingState} defaultValue={readingState}/>
                         </Box>
                         <Flex w='30%' h='100%'>

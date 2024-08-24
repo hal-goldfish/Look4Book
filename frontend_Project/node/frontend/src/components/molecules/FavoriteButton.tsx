@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import { Star, StarBorderOutlined } from "@mui/icons-material";
 import React from "react";
 
@@ -15,7 +15,9 @@ export const FavoriteButton = ({
 }: FavoriteButtonProps) => {
     return (
         <Button w='100%' color={color} variant='link' onClick={()=>{setIsClicked(!isClicked)}}>
-            {isClicked? <Star/>: <StarBorderOutlined/>}
+            <Tooltip label={'お気に入り-'+(isClicked? '解除': '登録')}>
+                {isClicked? <Star/>: <StarBorderOutlined/>}
+            </Tooltip>
         </Button>
     );
 };

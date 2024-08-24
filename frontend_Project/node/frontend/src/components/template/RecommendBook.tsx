@@ -4,34 +4,20 @@ import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
 import SearchArea from "../orgnism/SearchArea";
 import { CATEGORIES_NUM } from "../../consts/Categories";
-import SearchArea from "../orgnism/SearchArea";
-import { CATEGORIES_NUM } from "../../consts/Categories";
 
 const RecommendBook = () => {
     const [keyword, setKeyword] = useState<String>('');
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
-    const [keyword, setKeyword] = useState<String>('');
-    const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
     return(
         <HStack w='100%' h='100%' alignItems='flex-start'>
-        <SearchArea
-            width="25%"
-            keyword={keyword}
-            setKeyword={setKeyword}
-            onClick={()=>{}}
-            showStateOption={false}
-            setIsCheckedCategory={setIsCheckedCategory}
-        />
-        </HStack>
-        <HStack w='100%' h='100%' alignItems='flex-start'>
-        <SearchArea
-            width="25%"
-            keyword={keyword}
-            setKeyword={setKeyword}
-            onClick={()=>{}}
-            showStateOption={false}
-            setIsCheckedCategory={setIsCheckedCategory}
-        />
+            <SearchArea
+                width="25%"
+                keyword={keyword}
+                setKeyword={setKeyword}
+                onClick={()=>{}}
+                showStateOption={false}
+                setIsCheckedCategory={setIsCheckedCategory}
+            />
         </HStack>
     );
 }
