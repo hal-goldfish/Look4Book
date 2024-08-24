@@ -7,3 +7,4 @@ django-filter
 pillow
 openai
 python-dotenv
+django-environ
