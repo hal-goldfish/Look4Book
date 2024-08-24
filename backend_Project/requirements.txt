@@ -8,3 +8,4 @@ pillow
 openai
 python-dotenv
 django-environ
+whitenoise
