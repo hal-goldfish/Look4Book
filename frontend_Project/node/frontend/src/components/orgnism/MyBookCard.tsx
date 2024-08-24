@@ -70,7 +70,7 @@ export const MyBookCard = ({
 
     return (
         <>
-            <Box width={width} height={height} onClick={onOpen}>
+            <Box minW={width} maxW={width} height={height} onClick={onOpen}>
                 <Card w='100%' h='100%' variant='filled'>
                     <CardBody h='80%' p={1}>
                         <Flex w='100%' h='90%' justify='center'>
