@@ -7,7 +7,7 @@ import { commonBG } from "../../consts/IMAGE";
 import SearchArea from "../orgnism/SearchArea";
 import { CATEGORIES_NUM } from "../../consts/Categories";
 import { MyBook } from "../../types/MyBook";
-import { Star, StarBorder } from "@mui/icons-material";
+import MyBookCard from "../orgnism/MyBookCard";
 
 const Books = () => {
     const {user} = useAuthUserContext();
@@ -37,29 +37,13 @@ const Books = () => {
                 setIsCheckedCategory={setIsCheckedCategory}
             />
             <Box width='75%' h='100%' overflow='auto'>
-                <Table>
-                    <Thead>
-                        <Td>タイトル</Td>
-                        <Td>筆者</Td>
-                        <Td>出版社</Td>
-                        <Td>カテゴリ</Td>
-                    </Thead>
-                    {bookList.map(book =>
-                        <Tr>
-                            <Td>
-                                <HStack>
-                                    <Button bg='transparent' variant='link'>
-                                        {book.favorite ? <Star/> : <StarBorder/>}
-                                    </Button>
-                                    <Text>{book.title}</Text>
-                                </HStack>
-                            </Td>
-                            <Td>{book.author}</Td>
-                            <Td>{book.publisher}</Td>
-                            <Td>{book.categoryName}</Td>
-                        </Tr>
-                    )}
-                </Table>
+                {
+                    bookList.map(book => {
+                        return (
+                            <MyBookCard book={book}/>
+                        );
+                    })
+                }
             </Box>
         </HStack>
     );

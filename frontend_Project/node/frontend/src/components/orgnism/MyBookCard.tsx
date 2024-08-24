@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MyBook } from "../../types/MyBook";
-import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, useToast, VStack } from "@chakra-ui/react";
 import { getBookImage } from "../../functions/getBookImage";
 import { imageNotFound } from "../../consts/IMAGE";
 import { STATES } from "../../consts/States";
 import CardRadioButtons from "../molecules/CardRadioButtons";
 import FavoriteButton from "../molecules/FavoriteButton";
+import { editBook } from "../../functions/editBookState";
 
 type MyBookCardPops = {
     book: MyBook;
@@ -30,9 +31,31 @@ export const MyBookCard = ({
         return {name: state, id: STATES.id[state]}
     });
     const [readingState, setReadingState] = useState(book.stateId);
-    const [isFavorite, setIsFavorite] = useState(false);
-    useEffect(()=>{
+    const [isFavorite, setIsFavorite] = useState(book.favorite);
+    const toast = useToast();
+    const isFirstTime = useRef(true);
 
+    const openToast = (text:string, status:string) => {
+        toast({
+            title: text,
+            status: status,
+            isClosable: true,
+        })
+    };
+    const handleEditBook = async () => {
+        const res = await editBook(book.userId, book.bookId, readingState, isFavorite);
+        if(res){
+            openToast('更新しました', 'success');
+        }else{
+            openToast('更新できませんでした', 'error');
+        }
+    };
+    useEffect(()=>{
+        if(isFirstTime.current){
+            isFirstTime.current = false;
+            return;
+        }
+        handleEditBook();
     },[readingState, isFavorite]);
     return (
         <Box width={width} height={height}>
