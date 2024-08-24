@@ -37,7 +37,7 @@ export const SearchArea = ({
         }));
     };
     return (
-        <VStack h='100%' width={width} spacing='5%' p='8px' bg='rgba(50,50,200,0.2)' borderColor='black' borderWidth='3px'>
+        <VStack h='100%' width={width} maxW={width} spacing='5%' p='8px' bg='rgba(50,50,200,0.2)' borderColor='black' borderWidth='3px'>
             <HStack h='10%' w='100%' spacing={5} align='center' p='8px'>
                 <Input bgColor='white' placeholder='フリーワード' value={keyword} onChange={(e)=>{setKeyword(e.target.value)}} />
                 <Tooltip label='検索'>
