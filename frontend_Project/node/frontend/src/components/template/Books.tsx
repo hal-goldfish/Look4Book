@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import { getBooks } from "../../functions/getBooks";
-import { Box, Flex, Table, Td, Thead, Tr, VStack, HStack, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, VStack, HStack, Grid } from "@chakra-ui/react";
 import { Header } from "../orgnism/Header";
 import { commonBG } from "../../consts/IMAGE";
 import SearchArea from "../orgnism/SearchArea";
 import { CATEGORIES_NUM } from "../../consts/Categories";
 import { MyBook } from "../../types/MyBook";
 import MyBookCard from "../orgnism/MyBookCard";
+import { searchBooks } from "../../functions/searchBooks";
 
 const Books = () => {
     const {user} = useAuthUserContext();
@@ -16,15 +17,26 @@ const Books = () => {
     const [isOnlyFavorite, setIsOnlyFavorite] = useState<boolean>(false);
     const [isReadingState, setIsReaingState] = useState<boolean[]>([false,false,false]);
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
+    const isFirstTime = useRef(true);
 
     const getBooksByUserId = async () => {
         if(!user) return ;
         const res = await getBooks(user.id);
         setBookList(res);
     };
+    const getBooksBySearchOptions = async () => {
+        if(!user) return ;
+        const res = await searchBooks(user.id, isOnlyFavorite, isReadingState, isCheckedCategory);
+        setBookList(res);
+    };
     useEffect(() => {
-        getBooksByUserId();
-    },[]);
+        if(isFirstTime.current){
+            getBooksByUserId();
+            isFirstTime.current = false;
+        }else{
+            getBooksBySearchOptions();
+        }
+    },[isOnlyFavorite, isReadingState, isCheckedCategory]);
     return (
         <HStack h='100%' alignItems='flex-start'>
             <SearchArea
@@ -37,13 +49,15 @@ const Books = () => {
                 setIsCheckedCategory={setIsCheckedCategory}
             />
             <Box width='75%' h='100%' overflow='auto'>
-                {
-                    bookList.map(book => {
-                        return (
-                            <MyBookCard book={book}/>
-                        );
-                    })
-                }
+                <Grid templateColumns='repeat(6, 1fr)' gap={5}>
+                    {
+                        bookList.map(book => {
+                            return (
+                                <MyBookCard book={book}/>
+                            );
+                        })
+                    }
+                </Grid>
             </Box>
         </HStack>
     );
