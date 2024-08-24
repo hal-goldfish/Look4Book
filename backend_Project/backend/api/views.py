@@ -152,7 +152,7 @@ def book_delete(request):
 		user.state_count = " ".join(state_count)
 
 		cat = user_book.category_id
-		if 0 < cat :
+		if 0 <= cat :
 			cat_count = user.categories_count.split(" ")
 			cat_count[cat] = str(int(cat_count[cat]) - 1)
 			user.cat_count = " ".join(cat_count)
