@@ -1,0 +1,19 @@
+services:
+
+  # A web service that builds from a Dockerfile
+  - type: web
+    runtime: docker
+    name: backendd
+    # repo: https://github.com/render-examples/webdis.git # Default: Repo containing render.yaml
+    dockerContext: ./backend_Project
+    dockerfilePath: docker/python/Dockerfile
+
+  
+  - type: web
+    runtime: docker
+    name: frontend
+    # repo: https://github.com/render-examples/webdis.git # Default: Repo containing render.yaml
+    dockerContext: ./frontend_Project
+    dockerfilePath: docker/node/Dockerfile
+
+  
