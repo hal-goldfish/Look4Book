@@ -3,7 +3,7 @@ import React from "react";
 
 type SearchCheckBoxProps = {
     text: string;
-    onChange;
+    onChange: any;
 }
 
 export const SearchCheckBox = ({

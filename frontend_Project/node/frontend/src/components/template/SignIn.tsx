@@ -17,7 +17,7 @@ export const SignIn = () => {
 
     const getUsers = async () => {
         const res = await axios.get(GET_USER);
-        setUserList(res.data.map((user) => new String(user['name'])));
+        setUserList(res.data.map((user: any) => new String(user['name'])));
     };
 
     useEffect(()=>{

@@ -16,14 +16,14 @@ export const LogInButton = () => {
     const {signin} = useAuthUserContext();
     const router = useRouter();
 
-    const onChangeUserName = (e) => {
+    const onChangeUserName = (e: any) => {
         setUserName(e.target.value);
     };
     useEffect(()=>{
         setIsInvalidUserName(userName.length===0);
     },[userName]);
 
-    const onChangePassword = (e) => {
+    const onChangePassword = (e: any) => {
         setPassword(e.target.value);
     };
     useEffect(()=>{

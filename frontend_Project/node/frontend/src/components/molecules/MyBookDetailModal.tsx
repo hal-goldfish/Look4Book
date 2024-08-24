@@ -15,10 +15,10 @@ type MyBookDetailModalProps = {
 		name: String;
 		id: Number;
 	}[];
-	setReadingState;
+	setReadingState: any;
 	readingState: Number;
     isFavorite: Boolean;
-    setIsFavorite;
+    setIsFavorite: any;
     handleDelete: ()=>void;
 };
 
