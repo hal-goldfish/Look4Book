@@ -132,6 +132,7 @@ def book_regist(request):
 			return JsonResponse({"is_success": "false", "status": "something wrong"})
 		return JsonResponse({"is_success": "true", "book_id": book._book_id})
 	
+
 @csrf_exempt
 def book_suggest(request):
 	if request.method == 'POST':
@@ -176,15 +177,13 @@ def image(request):
 	if request.method == 'GET':
 		if not "book_id" in request.GET:
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
-		id = request.GET.get("book_id")
-		if os.path.isfile(settings.MEDIA_ROOT + "/data/" + id + ".jpg"):
-			with open(settings.MEDIA_ROOT + "/data/" + id + ".jpg", "rb") as fh:
-				response = HttpResponse(fh.read(), content_type="image/jpeg")
-				return response
+		
+		book = Book.objects.get(id = request.GET.get("book_id"))
+		if book.book_cover is None:
+			return JsonResponse({"is_success": "false", "status": "image is not exist"})
 		else:
-			with open(settings.MEDIA_ROOT + "/imageNotFound.jpg", "rb") as fh:
-				response = HttpResponse(fh.read(), content_type="image/jpeg")
-				return response
+			url = book.book_cover
+			return HttpResponse(requests.get(url).content, content_type="image/jpeg")
 
 
 def imagebyisbn(request):
@@ -193,14 +192,14 @@ def imagebyisbn(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 		isbn = request.GET.get("ISBN")
+		
 		url_image = "https://ndlsearch.ndl.go.jp/thumbnail/" + isbn + ".jpg"
 
 		response = requests.get(url_image)
-		if response.headers['Content-Type'] == "image/jpeg":
+		if response.headers['Content-Type'] == "image/jpeg": # 書影がある
 			return HttpResponse(response.content, content_type="image/jpeg")
 		else:
-			with open(settings.MEDIA_ROOT + "/imageNotFound.jpg", "rb") as fh:
-				return HttpResponse(fh.read(), content_type="image/jpeg")
+			JsonResponse({"is_success": "false", "status": "image is not exist"})
 	
 
 
