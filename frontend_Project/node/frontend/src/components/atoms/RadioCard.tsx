@@ -12,8 +12,12 @@ export const RadioCard = ({
     onClick,
     isSelected,
 }: RadioCardProps) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        onClick();
+    };
     return (
-        <Button size='sm' onClick={onClick} colorScheme={isSelected? 'blue': 'red'}>
+        <Button size='sm' onClick={(e)=>{handleClick(e)}} colorScheme={isSelected? 'blue': 'red'}>
             <Text fontSize='x-small'>{label}</Text>
         </Button>
     );
