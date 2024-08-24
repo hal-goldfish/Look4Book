@@ -6,4 +6,5 @@ ADD requirements.txt /backend/
 RUN pip install -r requirements.txt
 ADD . /backend/
 
-RUN python3 /backend/manage.py runserver 0.0.0.0:8000
+RUN ls
+RUN python3 ./manage.py runserver 0.0.0.0:8000
