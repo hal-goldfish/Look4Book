@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { imageNotFound } from "../../consts/IMAGE";
 import { Book } from "../../types/Book";
@@ -21,9 +21,12 @@ export const BookCard = ({
     height='200px',
 }: BookCardPops) => {
     const [image, setImage] = useState<string | string[]>(imageNotFound);
-    const [isRegistered, setIsRegistered] = useState<boolean|null>(null);
+    const [isRegistered, setIsRegistered] = useState<boolean>(false);
+    const [prevRegistered, setPrevRegistered] = useState<boolean|null>(null);
+    const [isFetched, setIsFetched] = useState<boolean>(false);
     const toast = useToast();
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const isFirstTime = useRef(true);
 
     const openToast = (text:string, status:"success" | "error") => {
         toast({
@@ -34,9 +37,10 @@ export const BookCard = ({
         })
     };
     const hasBook = async () => {
-        setIsRegistered(null);
+        setIsFetched(false);
         const res = await isAlreadyRegistered(userId, book.id);
         setIsRegistered(res);
+        setIsFetched(true);
     };
     const handleAdd = async () => {
         const res = await registerBook(userId, book.ISBN);
@@ -44,7 +48,7 @@ export const BookCard = ({
             setIsRegistered(true);
             openToast('更新しました', 'success');
         }else{
-            openToast('失敗しました', 'error');
+            // openToast('失敗しました', 'error');
         }
         hasBook();
     };
@@ -53,6 +57,18 @@ export const BookCard = ({
         if(book.image) setImage(book.image);
         hasBook();
     },[book]);
+    useEffect(()=>{
+        setPrevRegistered(isRegistered);
+        if(isFirstTime.current){
+            isFirstTime.current = false ;
+            return ;
+        }
+        if(isFetched){
+            if(isRegistered && (prevRegistered===false)){
+                handleAdd();
+            }
+        }
+    },[isRegistered]);
 
     return (
         <>
@@ -68,11 +84,11 @@ export const BookCard = ({
                     </CardBody>
                     <Divider/>
                     <CardFooter w='100%' h='20%' py={1} px={0}>
-                        <HStack w='100%' h='100%' spacing={1}>
-                            <Button variant='ghost'>
-                                <AddButton isRegistered={isRegistered||false} handleAdd={handleAdd}/>
-                            </Button>
-                        </HStack>
+                        <Flex w='100%' h='100%' px={2} justify='right'>
+                            <Flex>
+                                <AddButton isRegistered={isRegistered||false} setIsRegistered={setIsRegistered}/>
+                            </Flex>
+                        </Flex>
                     </CardFooter>
                 </Card>
             </Box>
@@ -81,7 +97,7 @@ export const BookCard = ({
                 onClose={onClose}
                 image={image}
                 book={book}
-                handleAdd={handleAdd}
+                setIsRegistered={setIsRegistered}
                 isRegistered={isRegistered||false}
             />
         </>
