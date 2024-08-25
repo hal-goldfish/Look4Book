@@ -186,54 +186,39 @@ def book_delete(request):
 		return JsonResponse({"is_success": "false", "status": "user dont have this book"})
 
   
-  #@csrf_exempt
+#@csrf_exempt
 def book_search(request):
 	if request.method == 'POST':
+		if not "user_id" in request.POST:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		if not ("word" in request.POST):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
-		word = request.POST.get("word")
+		word = request.POST.get("word") # 検索単語
 
 		model = KeyedVectors.load('api/model/keyword.kv')
 		if not model.has_index_for(word):
-			return JsonResponse({"is_success": "false", "status": "unkown word"})
+			return JsonResponse({"is_success": "false", "status": "unknown word"})
 		word_vec = model.get_vector(word)
 		similar = []
 
-		if "user_id" in request.GET:
-			user_books = User_Book.objects.filter(_user_id = request.GET.get("user_id"))
-			if "category_id" in request.GET:
-				user_books = user_books.filter(category_id = request.GET.get("category_id"))
-			
-			for book in user_books:
-				book_vec = pickle.loads(book.vector)
-				cos_simil = book_vec @ word_vec / np.sqrt(np.nansum(np.power(book_vec, 2)) * np.nansum(np.power(word_vec, 2)))
-				similar.append((cos_simil, book.id))
-			
-			res = sorted(similar, reverse=True)[:10]
-			res_book = User_Book.objects.filter(id = res[0][1])
-			for r in res:
-				res_book = res_book | User_Book.objects.filter(id = r[1])
+		user_books = User_Book.objects.filter(_user_id = request.POST.get("user_id"), is_delete = "false")
+		if "category_id" in request.POST:
+			categories = request.POST.get("category_id").split(" ")
+			user_books = user_books.filter(category_id__in = categories, is_delete="false")
+		
+		for book in user_books:
+			book_vec = pickle.loads(book.vector)
+			cos_simil = book_vec @ word_vec / np.sqrt(np.nansum(np.power(book_vec, 2)) * np.nansum(np.power(word_vec, 2)))
+			similar.append((cos_simil, book.id))
+		
+		res = sorted(similar, reverse=True)
+		res_book = User_Book.objects.filter(id = res[0][1], is_deleted = "false")
+		for r in res:
+			res_book = res_book | User_Book.objects.filter(id = r[1], is_deleted = "false")
 
-			return JsonResponse(User_BookSerializer(res_book, many=True).data, safe=False)
-
-		else:
-
-			books = Book.objects.all()
-			if "category_id" in request.GET:
-				books = books.filter(category_id = request.GET.get("category_id"))
-
-			for book in books:
-				book_vec = pickle.loads(book.vector)
-				cos_simil = book_vec @ word_vec / np.sqrt(np.nansum(np.power(book_vec, 2)) * np.nansum(np.power(word_vec, 2)))
-				similar.append((cos_simil, book.id))
-
-			res = sorted(similar, reverse=True)[:10]
-			res_book = Book.objects.filter(id = res[0][1])
-			for r in res:
-				res_book = res_book | Book.objects.filter(id = r[1])
-
-			return JsonResponse(BookSerializer(res_book, many=True).data, safe=False)
+		return JsonResponse(User_BookSerializer(res_book, many=True).data, safe=False)
+		
 
 
 
