@@ -59,11 +59,11 @@ export const BookCard = ({
             <Box minW={width} maxW={width} height={height} onClick={onOpen}>
                 <Card w='100%' h='100%' variant='filled'>
                     <CardBody h='80%' p={1}>
-                        <Flex w='100%' h='90%' justify='center'>
+                        <Flex w='100%' h='85%' justify='center'>
                             <Image objectFit='cover' src={image as string} />
                         </Flex>
-                        <Flex h='10%' justify='left' overflow='hidden'>
-                            <Text w='100%' fontSize='x-small'>{book.title}</Text>
+                        <Flex h='15%' justify='left' overflow='hidden'>
+                            <Text isTruncated w='100%' fontSize='small'>{book.title}</Text>
                         </Flex>
                     </CardBody>
                     <Divider/>
