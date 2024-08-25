@@ -13,7 +13,7 @@ export async function getBookImage(ISBN: String) {
         apiIsSuccess = false;
     });
     if(apiIsSuccess){
-        return [URL.createObjectURL(res.data)];
+        return URL.createObjectURL(res.data);
     }else{
         return imageNotFound;
     }

@@ -19,7 +19,7 @@ export const useAuthUserContext = ():AuthUserContextType => {
 
 type Props = {
     children: React.ReactNode
-  }
+}
 
 export const AuthUserProvider = (props: Props) => {
     const [isUserLoading, setIsUserLoading] = useState(true);
@@ -45,21 +45,21 @@ export const AuthUserProvider = (props: Props) => {
     },[]);
 
     const signin = (newUser: User,token: String | null, callback: () => void) => {
-      setIsLogin(true);
-      setUser(newUser);
-      setToken(token);
-      sessionStorage.setItem('userId', String(newUser.id));
-      sessionStorage.setItem('token', token?.toString()||'');
-      callback();
+		setIsLogin(true);
+		setUser(newUser);
+		setToken(token);
+		sessionStorage.setItem('userId', String(newUser.id));
+		sessionStorage.setItem('token', token?.toString()||'');
+		callback();
     }
 
     const signout = (callback: () => void) => {
-      setIsLogin(false);
-      setUser(null);
-      setToken(null);
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('token');
-      callback();
+		setIsLogin(false);
+		setUser(null);
+		setToken(null);
+		sessionStorage.removeItem('userId');
+		sessionStorage.removeItem('token');
+		callback();
     }
 
 
