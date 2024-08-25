@@ -1,39 +1,26 @@
-import { Flex, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Text, Image, Divider, AbsoluteCenter, HStack, VStack, Spacer } from "@chakra-ui/react";
+import { Flex, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Text, Image, Divider, AbsoluteCenter, HStack, VStack, Spacer, Button } from "@chakra-ui/react";
 import React from "react";
-import { MyBook } from "../../types/MyBook";
 import DetailLabel from "../atoms/DetailLabel";
-import CardRadioButtons from "./CardRadioButtons";
-import FavoriteButton from "./FavoriteButton";
-import DeleteButton from "./DeleteButton";
+import { Book } from "../../types/Book";
+import AddButton from "../molecules/AddButton";
 
-type MyBookDetailModalProps = {
+type BookDetailModalProps = {
     isOpen: boolean;
     onClose: ()=>void;
     image: string | string[];
-    book: MyBook;
-    options: {
-		name: String;
-		id: Number;
-	}[];
-	setReadingState: any;
-	readingState: Number;
-    isFavorite: Boolean;
-    setIsFavorite: any;
-    handleDelete: ()=>void;
+    book: Book;
+    handleAdd: ()=>void;
+    isRegistered:  boolean;
 };
 
-export const MyBookDetailModal = ({
+export const BookDetailModal = ({
     isOpen,
     onClose,
     image,
     book,
-    options,
-    setReadingState,
-    readingState,
-    isFavorite,
-    setIsFavorite,
-    handleDelete,
-}:MyBookDetailModalProps) => {
+    handleAdd,
+    isRegistered,
+}: BookDetailModalProps) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -62,25 +49,15 @@ export const MyBookDetailModal = ({
                                 <DetailLabel label='出版社' value={book.publisher}/>
                                 <Divider/>
                                 <DetailLabel label='カテゴリ' value={book.categoryName}/>
-                                <Divider/>
-                                <DetailLabel label='登録日' value={book.registerDate.toLocaleString()}/>
                             </VStack>
                         </Box>
                     </HStack>
                 </ModalBody>
                 <ModalFooter>
                     <HStack w='100%' h='100%' spacing={1}>
-                        <Box h='100%' pl={1}>
-                            <CardRadioButtons options={options} setValue={setReadingState} defaultValue={readingState}/>
-                        </Box>
-                        <Spacer/>
-                        <Flex h='100%'>
-                            <FavoriteButton isClicked={isFavorite} setIsClicked={setIsFavorite} showLabel/>
-                        </Flex>
-                        <Spacer/>
-                        <Flex h='100%'>
-                            <DeleteButton handleDelete={handleDelete}/>
-                        </Flex>
+                        <Button variant='ghost'>
+                            <AddButton isRegistered={isRegistered} handleAdd={handleAdd} showLabel={true}/>
+                        </Button>
                     </HStack>
                 </ModalFooter>
             </ModalContent>
@@ -88,4 +65,4 @@ export const MyBookDetailModal = ({
     );
 };
 
-export default MyBookDetailModal;
+export default BookDetailModal;

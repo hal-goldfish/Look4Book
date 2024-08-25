@@ -16,7 +16,6 @@ export const SideMenuButton = ({
 }: SideMenuButtonProps) => {
     const router = useRouter();
     const color: string = 'black';
-    const bgcolor: string = 'lightblue';
     const icon = iconType==='top' ? <MoonIcon color={color}/>
                     : iconType==='signin' ? <ArrowRightIcon color={color}/>
                     : iconType==='signout' ? <ArrowLeftIcon color={color}/>

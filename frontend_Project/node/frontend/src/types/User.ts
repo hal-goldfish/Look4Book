@@ -2,11 +2,11 @@ import { MyBook } from "./MyBook";
 import { Roles } from "./Roles";
 
 export type User = {
-    id: Number;
-    name: String;
+    id: number;
+    name: string;
     role: Roles;
-    bookCount: Number;
-    stateCount: Number[];
-    categoryCount: Number[];
+    bookCount: number;
+    stateCount: number[];
+    categoryCount: number[];
     bookList?: MyBook[];
 }

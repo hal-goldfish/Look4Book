@@ -4,8 +4,8 @@ import { User } from "../../types/User";
 import { AccountCircle } from "@mui/icons-material";
 
 type UserButtonProps = {
-    user: User;
-    variant?: String;
+    user: User | null;
+    variant?: string;
     onClick: ()=>void;
 }
 

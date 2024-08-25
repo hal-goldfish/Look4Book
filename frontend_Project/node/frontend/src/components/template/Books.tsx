@@ -13,7 +13,7 @@ import { searchBooks } from "../../functions/searchBooks";
 const Books = () => {
     const {user} = useAuthUserContext();
     const [bookList, setBookList] = useState<MyBook[]>([]);
-    const [keyword, setKeyword] = useState<String>('');
+    const [keyword, setKeyword] = useState<string>('');
     const [isOnlyFavorite, setIsOnlyFavorite] = useState<boolean>(false);
     const [isReadingState, setIsReaingState] = useState<boolean[]>([false,false,false]);
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
@@ -48,8 +48,8 @@ const Books = () => {
                 setIsReadingState={setIsReaingState}
                 setIsCheckedCategory={setIsCheckedCategory}
             />
-            <Box width='75%' h='100%' overflow='auto'>
-                <Grid templateColumns='repeat(6, 1fr)' gap={5}>
+            <Box width='75%' maxH='100%' overflow='auto'>
+                <Grid templateColumns='repeat(5, 1fr)' gap={5}>
                     {
                         bookList.map(book => {
                             return (
@@ -67,11 +67,9 @@ export const BooksTemplate = () => {
     return (
         <VStack bgImage={commonBG} bgSize='cover' bgRepeat='no-repeat' h='100vh' overflow='hidden'>
             <Header curPage='本棚'/>
-            <Flex w='100%' h='90vh' alignItems='center'>
-                <Box w='100%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px' m='5%'>
-                    <Box w='100%' h='100%' overflow='auto'>
-                        <Books/>
-                    </Box>
+            <Flex w='100%' h='90vh' alignItems='center' justify='center'>
+                <Box alignItems='center' w='90%' maxW='90%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px'>
+                    <Books/>
                 </Box>
             </Flex>
         </VStack>
