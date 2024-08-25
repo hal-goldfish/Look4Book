@@ -58,7 +58,6 @@ class Book(models.Model):
 	overview = models.TextField(null=True)
 	book_cover = models.CharField(max_length=50, null=True)
 	category_id = models.IntegerField(null = True)
-	vector = models.BinaryField(null = True)
     
 	def __str__(self):
 		return self.title
@@ -101,7 +100,6 @@ class User_Book(models.Model):
     overview = models.TextField(null=True)
     book_cover = models.CharField(max_length=50, null=True)
     category_id = models.IntegerField(null = True)
-    vector = models.BinaryField(null = True)
     
     is_delete = models.CharField(max_length=10, default="false")
     

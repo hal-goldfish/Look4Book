@@ -9,6 +9,7 @@ export type AuthUserContextType = {
     token: String | null;
     signin: (user:User, token:String | null, callback:() => void) => void;
     signout: (callback:() => void) => void;
+	fetchUser: ()=>void;
 }
 
 const AuthUserContext = React.createContext<AuthUserContextType>({} as AuthUserContextType);
@@ -18,8 +19,8 @@ export const useAuthUserContext = ():AuthUserContextType => {
 }
 
 type Props = {
-    children: React.ReactNode
-  }
+	children: React.ReactNode
+}
 
 export const AuthUserProvider = (props: Props) => {
     const [isUserLoading, setIsUserLoading] = useState(true);
@@ -33,15 +34,15 @@ export const AuthUserProvider = (props: Props) => {
         if(!!savedToken){
             setIsLogin(true);
             const getUserById = async () => {
-              const res = await getUser(Number(savedUserId));
-              setUser(res);
-              setIsUserLoading(false);
+				const res = await getUser(Number(savedUserId));
+				setUser(res);
+				setIsUserLoading(false);
             };
             getUserById();
             setToken(savedToken);
         }else{
-			setIsUserLoading(false);
-		}
+          	setIsUserLoading(false);
+        }
     },[]);
 
     const signin = (newUser: User,token: String | null, callback: () => void) => {
@@ -62,11 +63,21 @@ export const AuthUserProvider = (props: Props) => {
       callback();
     }
 
+    const fetchUser = () => {
+        const savedUserId = sessionStorage.getItem('userId');
+		setIsUserLoading(true);
+		const getUserById = async () => {
+			const res = await getUser(Number(savedUserId));
+			setUser(res);
+			setIsUserLoading(false);
+		};
+		getUserById();
+	};
 
-    const value:AuthUserContextType = {isUserLoading, isLogin, user, token, signin, signout };
+    const value:AuthUserContextType = {isUserLoading, isLogin, user, token, signin, signout, fetchUser };
     return (
-      <AuthUserContext.Provider value={value}>
-        {props.children}
-      </AuthUserContext.Provider>
+    	<AuthUserContext.Provider value={value}>
+			{props.children}
+      	</AuthUserContext.Provider>
     );
 }

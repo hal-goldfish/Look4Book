@@ -76,7 +76,7 @@ def get_and_save_data(isbn, user_id):
 			if text[idx+i] == '&':
 				break
 			author += text[idx+i]
-
+   
 
 	# 出版社
 	idx = text.find("publisher")+13
@@ -93,7 +93,7 @@ def get_and_save_data(isbn, user_id):
 
 	system_content = """
 	# Response format
-	以下の選択肢から1つ選んで回答してください。文章では答えないでください。 """
+	以下の選択肢から1つ選んで回答してください。 """
 	for c in Categories.categories:
 		system_content += c + " | "
 	
@@ -125,40 +125,12 @@ def get_and_save_data(isbn, user_id):
 	else:
 		category_id = -1                    # カテゴリが不明な場合
 
-	
-
-	# 概要
-	system_content = "以下の書籍のテーマ・内容・特徴に関する単語を列挙してください。スペース区切りで、日本語の単語のみを答えてください。文章は答えないでください。"
-
-	user_content = ""
-	user_content += "『" + title + "』" + "(" + author + " " + publisher + ")"
-
-	completion = client.chat.completions.create(
-		model="gpt-4o-mini",
-		messages=[
-			{
-				"role": "system", 
-				"content": system_content
-			},
-			{
-				"role": "user",
-				"content": user_content
-			}
-		]
-	)
-	print(system_content)
-	print(user_content)
-	print(completion.choices[0].message)
-
-	overview = completion.choices[0].message.content
-
 
 	book = Book(ISBN = isbn,
 		title = title,
 		author = author,
 		publisher = publisher, 
-		category_id = category_id,
-		overview = overview)
+		category_id = category_id)
 	
 	book.save()
 
