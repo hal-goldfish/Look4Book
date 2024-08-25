@@ -22,7 +22,9 @@ export const RouteProtecter = ({
         const isAllowed = isLogin && !!user && (allowedRoles||['admin']).includes(user.role);
         if(!isAllowed && !isUserLoading) router.push(redirect||TOP_PAGE);
     },[isUserLoading]);
-    return (
-        isUserLoading? <Text>Loading...</Text> : component
-    );
+	return (
+		<>
+			{isUserLoading? <Text>Loading...</Text> : component}
+		</>
+	);
 };
