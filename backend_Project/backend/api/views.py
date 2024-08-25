@@ -186,7 +186,7 @@ def book_delete(request):
 		return JsonResponse({"is_success": "false", "status": "user dont have this book"})
 
   
-#@csrf_exempt
+@csrf_exempt
 def book_search(request):
 	if request.method == 'POST':
 		if not "user_id" in request.POST:

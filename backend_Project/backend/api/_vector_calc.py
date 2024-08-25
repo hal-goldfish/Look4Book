@@ -6,6 +6,8 @@ import pickle
 import numpy as np
 
 
+# 各本の特徴ベクトルを計算
+
 def vector_calc():
 
 	os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
