@@ -23,6 +23,8 @@ export const RouteProtecter = ({
         if(!isAllowed && !isUserLoading) router.push(redirect||TOP_PAGE);
     },[isUserLoading]);
     return (
-        isUserLoading? <Text>Loading...</Text> : component
+        <>
+            {isUserLoading? <Text>Loading...</Text> : component}
+        </>
     );
 };
