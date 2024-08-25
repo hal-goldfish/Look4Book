@@ -3,6 +3,7 @@ import React from "react";
 import DetailLabel from "../atoms/DetailLabel";
 import { Book } from "../../types/Book";
 import AddButton from "../molecules/AddButton";
+import DeleteButton from "./DeleteButton";
 
 type BookDetailModalProps = {
     isOpen: boolean;
@@ -49,16 +50,18 @@ export const BookDetailModal = ({
                                 <DetailLabel label='出版社' value={book.publisher}/>
                                 <Divider/>
                                 <DetailLabel label='カテゴリ' value={book.categoryName}/>
+                                <Divider/>
+                                <DetailLabel label='ISBN' value={book.ISBN}/>
                             </VStack>
                         </Box>
                     </HStack>
                 </ModalBody>
                 <ModalFooter>
-                    <HStack w='100%' h='100%' spacing={1}>
-                        <Button variant='ghost'>
-                            <AddButton isRegistered={isRegistered} handleAdd={handleAdd} showLabel={true}/>
-                        </Button>
-                    </HStack>
+                    <Flex h='100%'>
+                        {isRegistered ? <DeleteButton handleDelete={()=>{}}/>
+                            : <AddButton isRegistered={isRegistered} handleAdd={handleAdd} showLabel={true}/>
+                        }
+                    </Flex>
                 </ModalFooter>
             </ModalContent>
         </Modal>

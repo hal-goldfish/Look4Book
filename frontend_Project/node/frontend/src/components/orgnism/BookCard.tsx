@@ -68,11 +68,11 @@ export const BookCard = ({
                     </CardBody>
                     <Divider/>
                     <CardFooter w='100%' h='20%' py={1} px={0}>
-                        <HStack w='100%' h='100%' spacing={1}>
-                            <Button variant='ghost'>
+                        <Flex w='100%' h='100%' px={2} justify='right'>
+                            <Flex>
                                 <AddButton isRegistered={isRegistered||false} handleAdd={handleAdd}/>
-                            </Button>
-                        </HStack>
+                            </Flex>
+                        </Flex>
                     </CardFooter>
                 </Card>
             </Box>
