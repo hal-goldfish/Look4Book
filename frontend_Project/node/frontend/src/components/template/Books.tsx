@@ -9,9 +9,11 @@ import { CATEGORIES_NUM } from "../../consts/Categories";
 import { MyBook } from "../../types/MyBook";
 import MyBookCard from "../orgnism/MyBookCard";
 import { searchBooks } from "../../functions/searchBooks";
+import { useCacheImageContext } from "../../providers/CacheImage";
 
 const Books = () => {
     const {user} = useAuthUserContext();
+    const {getImageWithCache} = useCacheImageContext();
     const [bookList, setBookList] = useState<MyBook[]>([]);
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
@@ -22,13 +24,13 @@ const Books = () => {
 
     const getBooksByUserId = async () => {
         if(!user) return ;
-        const res = await getBooks(user.id);
+        const res = await getBooks(user.id, getImageWithCache);
         setBookList(res);
         setIsDisabled(false);
     };
     const getBooksBySearchOptions = async () => {
         if(!user) return ;
-        const res = await searchBooks(user.id, isOnlyFavorite, isReadingState, isCheckedCategory);
+        const res = await searchBooks(user.id, isOnlyFavorite, isReadingState, isCheckedCategory, getImageWithCache);
         setBookList(res);
         setIsDisabled(false);
     };

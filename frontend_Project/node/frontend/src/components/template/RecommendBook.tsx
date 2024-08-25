@@ -6,12 +6,13 @@ import SearchArea from "../orgnism/SearchArea";
 import { CATEGORIES, CATEGORIES_NUM } from "../../consts/Categories";
 import { Book } from "../../types/Book";
 import { suggestBook } from "../../functions/suggestBoook";
-import { getBooks } from "../../functions/getBooks";
 import { useAuthUserContext } from "../../providers/AuthUser";
 import BookCard from "../orgnism/BookCard";
+import { useCacheImageContext } from "../../providers/CacheImage";
 
 const RecommendBook = () => {
     const {user} = useAuthUserContext();
+    const {getImageWithCache} = useCacheImageContext();
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
@@ -22,7 +23,7 @@ const RecommendBook = () => {
 
     const getSuggestBooks = async () => {
         if(!user) return;
-        const res = await suggestBook(user.id, isCheckedCategory);
+        const res = await suggestBook(user.id, isCheckedCategory, getImageWithCache);
         setBookListByCategory(res);
         setIsDisabled(false);
     };
