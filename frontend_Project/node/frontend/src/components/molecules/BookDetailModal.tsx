@@ -10,7 +10,7 @@ type BookDetailModalProps = {
     onClose: ()=>void;
     image: string | string[];
     book: Book;
-    handleAdd: ()=>void;
+    setIsRegistered: any;
     isRegistered:  boolean;
 };
 
@@ -19,7 +19,7 @@ export const BookDetailModal = ({
     onClose,
     image,
     book,
-    handleAdd,
+    setIsRegistered,
     isRegistered,
 }: BookDetailModalProps) => {
     return (
@@ -59,7 +59,7 @@ export const BookDetailModal = ({
                 <ModalFooter>
                     <Flex h='100%'>
                         {isRegistered ? <DeleteButton handleDelete={()=>{}}/>
-                            : <AddButton isRegistered={isRegistered} handleAdd={handleAdd} showLabel={true}/>
+                            : <AddButton isRegistered={isRegistered} setIsRegistered={setIsRegistered} showLabel={true}/>
                         }
                     </Flex>
                 </ModalFooter>

@@ -5,17 +5,17 @@ import React, { ReactNode } from "react";
 type AddButtonProps = {
     showLabel?: boolean;
     isRegistered: boolean;
-    handleAdd: ()=>void;
+    setIsRegistered: any;
 };
 
 export const AddButton = ({
     showLabel=false,
     isRegistered,
-    handleAdd,
+    setIsRegistered,
 }: AddButtonProps) => {
     const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        handleAdd();
+        setIsRegistered(!isRegistered);
     };
     const label: string = isRegistered ? '登録済み' : '登録';
     const icon: ReactNode = isRegistered ? <Check/> : <Add/>;
