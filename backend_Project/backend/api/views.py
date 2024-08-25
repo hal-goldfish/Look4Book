@@ -196,11 +196,11 @@ def book_suggest(request):
 
 		# 最近追加された本
 		for cat in categories:
-			books = Book.objects.filter(id__in = User_Book.objects.filter(category_id = cat).exclude(_user_id=request.POST.get("user_id")).order_by("regist_date").values_list("_book_id")[:5])
+			books = Book.objects.filter(id__in = User_Book.objects.filter(category_id = cat).exclude(_user_id=request.POST.get("user_id")).order_by("regist_date").values_list("_book_id")[:10])
 			dict[str(cat)] = BookSerializer(books, many=True).data
 
 		# こんな本もあります（ランダム）
-		books = Book.objects.filter(id__in = User_Book.objects.filter(category_id__in = categories).exclude(_user_id=request.POST.get("user_id")).order_by('?').values_list("_book_id")[:5])
+		books = Book.objects.filter(id__in = User_Book.objects.filter(category_id__in = categories).exclude(_user_id=request.POST.get("user_id")).order_by('?').values_list("_book_id")[:10])
 		dict["other"] = BookSerializer(books, many=True).data
 
 		# res = json.dumps(dict)
