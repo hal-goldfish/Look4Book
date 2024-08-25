@@ -3,13 +3,13 @@ import { POST_BOOKS } from "../consts/API";
 import { MyBook } from "../types/MyBook";
 import { CATEGORIES } from "../consts/Categories";
 import { STATES } from "../consts/States";
-import { getBookImage } from "./getBookImage";
 
 export async function searchBooks(
         userId: number,
         isFavorite: boolean,
         isReadingState: boolean[],
-        isCheckedCategories: boolean[]
+        isCheckedCategories: boolean[],
+        getBookImageFunc: any,
     ): Promise<MyBook[]>{
     let apiIsSuccess = true ;
     const favorite: string = isFavorite ? '1' : '0 1';
@@ -43,7 +43,7 @@ export async function searchBooks(
     if( apiIsSuccess && res.data['is_success']) apiIsSuccess = false;
     if(apiIsSuccess){
         return await Promise.all(res.data.map(async (book: any) => {
-            const image = await getBookImage(book['ISBN']);
+            const image = await getBookImageFunc(book['ISBN']);
             const res: MyBook =  {
                 userId: userId,
                 bookId: book['_book_id'],

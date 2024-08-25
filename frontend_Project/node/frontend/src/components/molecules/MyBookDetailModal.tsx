@@ -63,6 +63,8 @@ export const MyBookDetailModal = ({
                                 <Divider/>
                                 <DetailLabel label='カテゴリ' value={book.categoryName}/>
                                 <Divider/>
+                                <DetailLabel label='ISBN' value={book.ISBN}/>
+                                <Divider/>
                                 <DetailLabel label='登録日' value={book.registerDate.toLocaleString()}/>
                             </VStack>
                         </Box>

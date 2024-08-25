@@ -1,10 +1,9 @@
 import axios from "axios";
 import { POST_BOOK_SUGGEST } from "../consts/API";
-import { getBookImage } from "./getBookImage";
 import { Book } from "../types/Book";
 import { CATEGORIES } from "../consts/Categories";
 
-export async function suggestBook(userId: Number, isCheckedCategories: boolean[]): Promise<{
+export async function suggestBook(userId: Number, isCheckedCategories: boolean[], getBookImageFunc: any): Promise<{
     category: string,
     books: Book[],
 }[]>{
@@ -30,7 +29,7 @@ export async function suggestBook(userId: Number, isCheckedCategories: boolean[]
         const keys = Object.keys(res.data);
         const response = keys.map(async (category: any) => {
             const books = await Promise.all(res.data[category].map( async (book: any) => {
-                const image = await getBookImage(book['ISBN']);
+                const image = await getBookImageFunc(book['ISBN']);
                 const res: Book =  {
                     id: book['id'],
                     ISBN: book['ISBN'],
