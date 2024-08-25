@@ -13,6 +13,7 @@ import { useCacheImageContext } from "../../providers/CacheImage";
 const RecommendBook = () => {
     const {user} = useAuthUserContext();
     const {getImageWithCache} = useCacheImageContext();
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
     const [bookListByCategory, setBookListByCategory] = useState<{
@@ -24,8 +25,10 @@ const RecommendBook = () => {
         if(!user) return;
         const res = await suggestBook(user.id, isCheckedCategory, getImageWithCache);
         setBookListByCategory(res);
+        setIsDisabled(false);
     };
     useEffect(()=>{
+        setIsDisabled(true);
         getSuggestBooks();
     },[isCheckedCategory]);
     return(
@@ -37,6 +40,7 @@ const RecommendBook = () => {
                 onClick={()=>{}}
                 showStateOption={false}
                 setIsCheckedCategory={setIsCheckedCategory}
+                isDisabled={isDisabled}
             />
             <Box width='75%' h='100%' overflowY='auto'>
                 <VStack>
@@ -70,7 +74,7 @@ const RecommendBook = () => {
 export const RecommendBookTemplate = () => {
     return (
         <VStack bgImage={commonBG} bgSize='cover' bgRepeat='no-repeat' h='100vh' overflow='hidden'>
-            <Header curPage='本を追加' />
+            <Header curPage='本を探す' />
             <Flex w='100%' h='90vh' alignItems='center' justify='center'>
                 <Box alignItems='center' w='90%' maxW='90%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px'>
                     <RecommendBook/>
