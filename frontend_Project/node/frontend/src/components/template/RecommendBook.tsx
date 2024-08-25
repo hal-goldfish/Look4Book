@@ -12,6 +12,7 @@ import BookCard from "../orgnism/BookCard";
 
 const RecommendBook = () => {
     const {user} = useAuthUserContext();
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
     const [isCheckedCategory, setIsCheckedCategory] = useState<boolean[]>([...Array(CATEGORIES_NUM)].map(()=>false));
     const [bookListByCategory, setBookListByCategory] = useState<{
@@ -23,8 +24,10 @@ const RecommendBook = () => {
         if(!user) return;
         const res = await suggestBook(user.id, isCheckedCategory);
         setBookListByCategory(res);
+        setIsDisabled(false);
     };
     useEffect(()=>{
+        setIsDisabled(true);
         getSuggestBooks();
     },[isCheckedCategory]);
     return(
@@ -36,6 +39,7 @@ const RecommendBook = () => {
                 onClick={()=>{}}
                 showStateOption={false}
                 setIsCheckedCategory={setIsCheckedCategory}
+                isDisabled={isDisabled}
             />
             <Box width='75%' h='100%' overflowY='auto'>
                 <VStack>

@@ -14,6 +14,7 @@ type SearchAreaProps = {
     setIsOnlyFavorite?: any;
     setIsReadingState?: any;
     setIsCheckedCategory: any;
+    isDisabled: boolean;
 };
 
 export const SearchArea = ({
@@ -25,6 +26,7 @@ export const SearchArea = ({
     setIsOnlyFavorite,
     setIsReadingState,
     setIsCheckedCategory,
+    isDisabled,
 }: SearchAreaProps) => {
     const handleChangeIsReadingState = (e: any, stateNum: number) => {
         setIsReadingState((prev: boolean[]) => prev.map((value, idx) => {
@@ -39,9 +41,9 @@ export const SearchArea = ({
     return (
         <VStack h='100%' width={width} maxW={width} spacing='5%' p='8px' bg='rgba(50,50,200,0.2)' borderColor='black' borderWidth='3px'>
             <HStack h='10%' w='100%' spacing={5} align='center' p='8px'>
-                <Input bgColor='white' placeholder='フリーワード' value={keyword} onChange={(e)=>{setKeyword(e.target.value)}} />
+                <Input isDisabled={isDisabled} bgColor='white' placeholder='フリーワード' value={keyword} onChange={(e)=>{setKeyword(e.target.value)}} />
                 <Tooltip label='検索'>
-                    <Button colorScheme="blue" onClick={onClick}>
+                    <Button isDisabled={isDisabled} colorScheme="blue" onClick={onClick}>
                         <Search/>
                     </Button>
                 </Tooltip>
@@ -53,10 +55,10 @@ export const SearchArea = ({
                     </Flex>
                     <Divider borderColor='black' />
                     <VStack w='100%' alignItems='left' overflow='auto'>
-                        <SearchCheckBox text='お気に入り' onChange={(e: any)=>{setIsOnlyFavorite(e.target.checked)}} />
+                        <SearchCheckBox isDisabled={isDisabled} text='お気に入り' onChange={(e: any)=>{setIsOnlyFavorite(e.target.checked)}} />
                         {STATES.state.map((state, idx) => {
                             return (
-                                <SearchCheckBox text={state} onChange={(e)=>{handleChangeIsReadingState(e, idx)}}/>
+                                <SearchCheckBox isDisabled={isDisabled} text={state} onChange={(e)=>{handleChangeIsReadingState(e, idx)}}/>
                             );
                         })}
                     </VStack>
@@ -70,7 +72,7 @@ export const SearchArea = ({
                 <VStack w='100%' alignItems='left' overflow='auto'>
                     {CATEGORIES.categories.map((category, idx) => {
                         return (
-                            <SearchCheckBox text={category} onChange={(e)=>{handleChangeIsCheckedCategory(e, idx)}}/>
+                            <SearchCheckBox isDisabled={isDisabled} text={category} onChange={(e)=>{handleChangeIsCheckedCategory(e, idx)}}/>
                         );
                     })}
                 </VStack>
