@@ -65,8 +65,8 @@ export const AuthUserProvider = (props: Props) => {
 
     const value:AuthUserContextType = {isUserLoading, isLogin, user, token, signin, signout };
     return (
-      <AuthUserContext.Provider value={value}>
-        {props.children}
-      </AuthUserContext.Provider>
+    	<AuthUserContext.Provider value={value}>
+			{props.children}
+    	</AuthUserContext.Provider>
     );
 }

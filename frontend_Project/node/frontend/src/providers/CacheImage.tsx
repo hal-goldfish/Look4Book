@@ -1,7 +1,8 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { getBookImage } from '../functions/getBookImage'
 
 export type CacheImageContextType = {
-    getImage: (ISBN: number) => string;
+    getImageWithCache: any;
 };
 
 const CacheImageContext = createContext<CacheImageContextType>({} as CacheImageContextType);
@@ -25,7 +26,21 @@ export const CacheImageProvider = (props: Props) => {
         if(cache.length>0){
             return cache[0].image;
         }else{
-            
+            const res = await getBookImage(ISBN);
+            setImageList((prev) => {
+                return [...prev, {
+                    ISBN: ISBN,
+                    image: res,
+                }]
+            });
+            return res;
         }
     };
+
+    const value: CacheImageContextType = { getImageWithCache };
+    return (
+        <CacheImageContext.Provider value={value}>
+            {props.children}
+        </CacheImageContext.Provider>
+    );
 }
