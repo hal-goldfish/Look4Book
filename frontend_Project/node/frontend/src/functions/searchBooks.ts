@@ -6,7 +6,7 @@ import { STATES } from "../consts/States";
 import { getBookImage } from "./getBookImage";
 
 export async function searchBooks(
-        userId: number,
+        userId: Number,
         isFavorite: boolean,
         isReadingState: boolean[],
         isCheckedCategories: boolean[]
@@ -30,7 +30,7 @@ export async function searchBooks(
     }).filter(value=>value!='');
     const category_id = categoryList.length>0 ? categoryList.join(' ') : null;
 
-    const res: any = await axios.post(POST_BOOKS, {
+    const res = await axios.post(POST_BOOKS, {
         user_id: userId,
         favorite: favorite,
         state: state,

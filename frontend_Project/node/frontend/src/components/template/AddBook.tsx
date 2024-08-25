@@ -12,11 +12,13 @@ const AddBook = () => {
 export const AddBookTemplate = () => {
     return (
         <VStack bgImage={commonBG} bgSize='cover' bgRepeat='no-repeat' h='100vh' overflow='hidden'>
-            <Header curPage='本棚'/>
-            <Flex w='100%' h='90vh' alignItems='center' justify='center'>
-                <Box alignItems='center' w='90%' maxW='90%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px' overflow='auto'>
-                    <AddBook/>
-                </Box>
+            <Header curPage='本を追加' />
+            <Flex w='100%' h='90vh' alignItems='center'>
+                <VStack alignItems='center' w='100%' h='90%' bgColor='rgba(255,255,255,0.5)' p='8px' m='5%'>
+                    <Box w='100%' h='100%' overflow='auto'>
+                        <AddBook/>
+                    </Box>
+                </VStack>
             </Flex>
         </VStack>
     );

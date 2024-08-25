@@ -8,22 +8,22 @@ import { useAuthUserContext } from "../../providers/AuthUser";
 
 export const LogInButton = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [userName, setUserName] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [userName, setUserName] = useState<String>('');
+    const [password, setPassword] = useState<String>('');
     const [isInvalidUserName, setIsInvalidUserName] = useState(true);
     const [isInvalidPassword, setIsInvalidPassword] = useState(true);
     const [errorMessage, setErrorMessage] = useState<String | null>(null);
     const {signin} = useAuthUserContext();
     const router = useRouter();
 
-    const onChangeUserName = (e: any) => {
+    const onChangeUserName = (e) => {
         setUserName(e.target.value);
     };
     useEffect(()=>{
         setIsInvalidUserName(userName.length===0);
     },[userName]);
 
-    const onChangePassword = (e: any) => {
+    const onChangePassword = (e) => {
         setPassword(e.target.value);
     };
     useEffect(()=>{

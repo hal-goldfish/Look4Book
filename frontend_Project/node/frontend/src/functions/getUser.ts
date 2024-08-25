@@ -4,7 +4,7 @@ import { GET_USER } from "../consts/API";
 
 export async function getUser(userId: number): Promise<User | null> {
     let apiIsSuccess = true;
-    const res: any = await axios.get(GET_USER,{
+    const res = await axios.get(GET_USER,{
         params:{
             user_id: userId
         }

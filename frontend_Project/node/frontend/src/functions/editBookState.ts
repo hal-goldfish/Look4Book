@@ -3,7 +3,7 @@ import { POST_EDIT_BOOKS } from "../consts/API";
 
 export async function editBook(userId: Number, bookId: Number, readingState: Number, isFavorite: Boolean){
     let apiIsSuccess = true;
-    const res: any = await axios.post(POST_EDIT_BOOKS+'?user_id='+userId+'&book_id='+bookId, {
+    const res = await axios.post(POST_EDIT_BOOKS+'?user_id='+userId+'&book_id='+bookId, {
         state: readingState,
         favorite: isFavorite? 1: 0,
     }, {

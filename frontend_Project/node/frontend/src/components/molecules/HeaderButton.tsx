@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from "react";
 
 type HeaderButtonProps = {
     text: String;
-    variant?: string;
+    variant?: String;
     onClick: ()=>void;
     icon?: ReactNode;
 }

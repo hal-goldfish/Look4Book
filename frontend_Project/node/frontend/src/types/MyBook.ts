@@ -1,15 +1,15 @@
 export type MyBook = {
-    userId: number;
-    bookId: number;
-    ISBN: string;
+    userId: Number;
+    bookId: Number;
+    ISBN: String;
     title: string;
     author: string;
     publisher: string;
-    categoryId: number;
+    categoryId: Number;
     categoryName: string;
-    stateId: number;
-    stateName: string;
-    favorite: boolean;
+    stateId: Number;
+    stateName: String;
+    favorite: Boolean;
     registerDate: Date;
     image?: string | string[];
 };
