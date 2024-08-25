@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8000/api/';
+export const API_BASE_URL = 'https://look4book-backend.onrender.com/api/';
 
 export const GET_USER = API_BASE_URL+'user/';
 
