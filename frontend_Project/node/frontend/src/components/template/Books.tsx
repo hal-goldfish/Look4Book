@@ -13,6 +13,7 @@ import { searchBooks } from "../../functions/searchBooks";
 const Books = () => {
     const {user} = useAuthUserContext();
     const [bookList, setBookList] = useState<MyBook[]>([]);
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
     const [isOnlyFavorite, setIsOnlyFavorite] = useState<boolean>(false);
     const [isReadingState, setIsReaingState] = useState<boolean[]>([false,false,false]);
@@ -23,13 +24,16 @@ const Books = () => {
         if(!user) return ;
         const res = await getBooks(user.id);
         setBookList(res);
+        setIsDisabled(false);
     };
     const getBooksBySearchOptions = async () => {
         if(!user) return ;
         const res = await searchBooks(user.id, isOnlyFavorite, isReadingState, isCheckedCategory);
         setBookList(res);
+        setIsDisabled(false);
     };
     useEffect(() => {
+        setIsDisabled(true);
         if(isFirstTime.current){
             getBooksByUserId();
             isFirstTime.current = false;
@@ -47,6 +51,7 @@ const Books = () => {
                 setIsOnlyFavorite={setIsOnlyFavorite}
                 setIsReadingState={setIsReaingState}
                 setIsCheckedCategory={setIsCheckedCategory}
+                isDisabled={isDisabled}
             />
             <Box width='75%' maxH='100%' overflow='auto'>
                 <Grid templateColumns='repeat(5, 1fr)' gap={5}>

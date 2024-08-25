@@ -56,7 +56,7 @@ class Book(models.Model):
 	author = models.CharField(max_length=20, null=True)
 	publisher = models.CharField(max_length=20, null=True)
 	overview = models.TextField(null=True)
-	book_cover = models.ImageField(upload_to = 'images/', null=True)
+	book_cover = models.CharField(max_length=50, null=True)
 	category_id = models.IntegerField(null = True)
     
 	def __str__(self):
@@ -73,6 +73,7 @@ class User(models.Model):
 	book_count = models.IntegerField(default=0) # 冊数
 	state_count = models.TextField(default = " ".join(['0', '0', '0']))
 	categories_count = models.TextField(default = " ".join(Categories.e)) # カテゴリごとの冊数
+    
 
 	def __str__(self):
 		return self.name
@@ -97,7 +98,7 @@ class User_Book(models.Model):
     author = models.CharField(max_length=20, null=True)
     publisher = models.CharField(max_length=20, null=True)
     overview = models.TextField(null=True)
-    book_cover = models.ImageField(upload_to = 'images/', null=True)
+    book_cover = models.CharField(max_length=50, null=True)
     category_id = models.IntegerField(null = True)
     
     is_delete = models.CharField(max_length=10, default="false")

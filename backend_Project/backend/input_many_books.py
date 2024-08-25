@@ -1,7 +1,19 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+import django
+django.setup()
+
+from api.get_data import get_and_save_data
+import random
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from api.models import User, Book, User_Book, Categories
 import requests
 from django.utils import timezone
 from django.utils.timezone import localtime
+
 
 
 def get_and_save_data(isbn, user_id):
@@ -76,7 +88,7 @@ def get_and_save_data(isbn, user_id):
 			if text[idx+i] == '&':
 				break
 			author += text[idx+i]
-   
+
 
 	# 出版社
 	idx = text.find("publisher")+13
@@ -93,7 +105,7 @@ def get_and_save_data(isbn, user_id):
 
 	system_content = """
 	# Response format
-	以下の選択肢から1つ選んで回答してください。 """
+	以下の選択肢から1つ選んで回答してください。文章では答えないでください。 """
 	for c in Categories.categories:
 		system_content += c + " | "
 	
@@ -125,12 +137,40 @@ def get_and_save_data(isbn, user_id):
 	else:
 		category_id = -1                    # カテゴリが不明な場合
 
+	
+
+	# 概要
+	system_content = "以下の書籍のテーマ・内容・特徴に関する単語を列挙してください。スペース区切りで、日本語の単語のみを答えてください。文章は答えないでください。"
+
+	user_content = ""
+	user_content += "『" + title + "』" + "(" + author + " " + publisher + ")"
+
+	completion = client.chat.completions.create(
+		model="gpt-4o-mini",
+		messages=[
+			{
+				"role": "system", 
+				"content": system_content
+			},
+			{
+				"role": "user",
+				"content": user_content
+			}
+		]
+	)
+	print(system_content)
+	print(user_content)
+	print(completion.choices[0].message)
+
+	overview = completion.choices[0].message.content
+
 
 	book = Book(ISBN = isbn,
 		title = title,
 		author = author,
 		publisher = publisher, 
-		category_id = category_id)
+		category_id = category_id,
+		overview = overview)
 	
 	book.save()
 
@@ -279,3 +319,12 @@ def only_get_data(isbn):
 	# 	book.book_cover = path
 
 	return book
+
+
+
+with open("ISBNmemo.txt", mode = "r") as f:
+	texts = f.readlines()
+	i = 0
+	for text in texts:
+		get_and_save_data(text, i%2+1)
+		print(text)

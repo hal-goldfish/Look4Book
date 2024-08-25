@@ -4,14 +4,16 @@ import React from "react";
 type SearchCheckBoxProps = {
     text: string;
     onChange: (e:React.ChangeEvent)=>void;
+    isDisabled: boolean;
 }
 
 export const SearchCheckBox = ({
     text,
     onChange,
+    isDisabled,
 }: SearchCheckBoxProps) => {
     return (
-        <Checkbox colorScheme='green' borderColor='green' onChange={onChange}>
+        <Checkbox isDisabled={isDisabled} colorScheme='green' borderColor='green' onChange={onChange}>
             <Text>{text}</Text>
         </Checkbox>
     );
