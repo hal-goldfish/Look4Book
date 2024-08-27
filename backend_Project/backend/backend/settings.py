@@ -139,6 +139,7 @@ MEDIA_URL = '/image/'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+	'https://look4-book-tksb.vercel.app',
 ]
 
 STATIC_URL = "static/"
