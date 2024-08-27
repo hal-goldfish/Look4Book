@@ -42,19 +42,19 @@ def book_list(request):
 		if not "user_id" in request.POST:
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
-		res = User_Book.objects.filter(_user_id = request.POST.get("user_id"))
+		res = User_Book.objects.filter(_user_id = request.POST.get("user_id"), is_delete="false")
 
 		if "category_id" in request.POST:
 			categories = request.POST.get("category_id").split(" ")
-			res = res.filter(category_id__in = categories)
+			res = res.filter(category_id__in = categories, is_delete="false")
 
 		if "favorite" in request.POST:
 			favs = request.POST.get("favorite").split(" ")
-			res = res.filter(favorite__in = favs)
+			res = res.filter(favorite__in = favs, is_delete="false")
 
 		if "state" in request.POST:
 			states = request.POST.get("state").split(" ")
-			res = res.filter(state__in = states)
+			res = res.filter(state__in = states, is_delete="false")
 
 		if "sort_by" in request.POST:
 			res = res.order_by(request.POST.get("sort_by"))
@@ -80,13 +80,26 @@ def book_get(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 
+def book_isHaving(request):
+	if request.method == 'GET':
+		if not "user_id" in request.GET:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not "book_id" in request.GET:
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+
+		if User_Book.objects.filter(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id")).exists():
+			return JsonResponse({"is_success": "true", "is_having": "true"})
+		else:
+			return JsonResponse({"is_success": "true", "is_having": "false"})
+		
+
 def book_detail(request):
 	if request.method == 'GET':
 		if not ("user_id" in request.GET):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		if not ("book_id" in request.GET):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
-		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
+		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false")
 		return JsonResponse(User_BookSerializer(book).data, safe = False)
 	
 	
@@ -98,7 +111,7 @@ def book_edit(request):
 		if not ("book_id" in request.GET):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
-		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"))
+		book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false")
 		user = User.objects.get(id = request.GET.get("user_id"))
 
 		if "state" in request.POST: # state 処理
@@ -127,11 +140,47 @@ def book_regist(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 		if get_and_save_data(request.GET.get("ISBN"), request.GET.get("user_id")):
-			book = User_Book.objects.get(_user_id = request.GET.get("user_id"), ISBN = request.GET.get("ISBN"))
+			book = User_Book.objects.get(_user_id = request.GET.get("user_id"), ISBN = request.GET.get("ISBN"), is_delete="false")
 		else:
 			return JsonResponse({"is_success": "false", "status": "something wrong"})
 		return JsonResponse({"is_success": "true", "book_id": book._book_id})
+
+
+def book_delete(request):
+	if request.method == 'GET':
+		if not ("user_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		if not ("book_id" in request.GET):
+			return JsonResponse({"is_success": "false", "status": "less parameter"})
+		
+	if User_Book.objects.filter(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false").exists():
+		user_book = User_Book.objects.get(_user_id = request.GET.get("user_id"), _book_id = request.GET.get("book_id"), is_delete="false")
+		user = User.objects.get(id = request.GET.get("user_id"))
+
+		user.book_count -= 1
+
+		state = user_book.state
+		state_count = user.state_count.split(" ")
+		state_count[state] = str(int(state_count[state]) - 1)
+		user.state_count = " ".join(state_count)
+
+		cat = user_book.category_id
+		if 0 <= cat :
+			cat_count = user.categories_count.split(" ")
+			cat_count[cat] = str(int(cat_count[cat]) - 1)
+			user.cat_count = " ".join(cat_count)
+
+		user_book.is_delete = "true"
+		user_book.save()
+		user.save()
+
+		JsonResponse({"is_success": "true"})
+
+	else:
+		return JsonResponse({"is_success": "false", "status": "user dont have this book"})
+
 	
+
 @csrf_exempt
 def book_suggest(request):
 	if request.method == 'POST':
@@ -147,19 +196,17 @@ def book_suggest(request):
 
 		# 最近追加された本
 		for cat in categories:
-			books = Book.objects.filter(id__in = User_Book.objects.filter(category_id = cat).exclude(_user_id=request.POST.get("user_id")).order_by("regist_date").values_list("_book_id")[:5])
+			books = Book.objects.filter(id__in = User_Book.objects.filter(category_id = cat).exclude(_user_id=request.POST.get("user_id")).order_by("regist_date").values_list("_book_id")[:10])
 			dict[str(cat)] = BookSerializer(books, many=True).data
 
 		# こんな本もあります（ランダム）
-		books = Book.objects.filter(id__in = User_Book.objects.filter(category_id__in = categories).exclude(_user_id=request.POST.get("user_id")).order_by('?').values_list("_book_id")[:5])
+		books = Book.objects.filter(id__in = User_Book.objects.filter(category_id__in = categories).exclude(_user_id=request.POST.get("user_id")).order_by('?').values_list("_book_id")[:10])
 		dict["other"] = BookSerializer(books, many=True).data
 
 		# res = json.dumps(dict)
 
 		return JsonResponse(dict, safe=False)
 
-
-	
 
 def user(request):
 	if request.method == 'GET':
@@ -176,15 +223,13 @@ def image(request):
 	if request.method == 'GET':
 		if not "book_id" in request.GET:
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
-		id = request.GET.get("book_id")
-		if os.path.isfile(settings.MEDIA_ROOT + "/data/" + id + ".jpg"):
-			with open(settings.MEDIA_ROOT + "/data/" + id + ".jpg", "rb") as fh:
-				response = HttpResponse(fh.read(), content_type="image/jpeg")
-				return response
+		
+		book = Book.objects.get(id = request.GET.get("book_id"))
+		if book.book_cover is None:
+			return JsonResponse({"is_success": "false", "status": "image is not exist"})
 		else:
-			with open(settings.MEDIA_ROOT + "/imageNotFound.jpg", "rb") as fh:
-				response = HttpResponse(fh.read(), content_type="image/jpeg")
-				return response
+			url = book.book_cover
+			return HttpResponse(requests.get(url).content, content_type="image/jpeg")
 
 
 def imagebyisbn(request):
@@ -193,14 +238,14 @@ def imagebyisbn(request):
 			return JsonResponse({"is_success": "false", "status": "less parameter"})
 		
 		isbn = request.GET.get("ISBN")
+		
 		url_image = "https://ndlsearch.ndl.go.jp/thumbnail/" + isbn + ".jpg"
 
 		response = requests.get(url_image)
-		if response.headers['Content-Type'] == "image/jpeg":
+		if response.headers['Content-Type'] == "image/jpeg": # 書影がある
 			return HttpResponse(response.content, content_type="image/jpeg")
 		else:
-			with open(settings.MEDIA_ROOT + "/imageNotFound.jpg", "rb") as fh:
-				return HttpResponse(fh.read(), content_type="image/jpeg")
+			JsonResponse({"is_success": "false", "status": "image is not exist"})
 	
 
 

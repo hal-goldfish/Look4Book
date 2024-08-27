@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MyBook } from "../../types/MyBook";
-import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, useDisclosure, useToast, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
-import { getBookImage } from "../../functions/getBookImage";
+import { Box, Card, CardBody, CardFooter, Divider, Flex, HStack, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { imageNotFound } from "../../consts/IMAGE";
 import { STATES } from "../../consts/States";
 import CardRadioButtons from "../molecules/CardRadioButtons";
 import FavoriteButton from "../molecules/FavoriteButton";
 import { editBook } from "../../functions/editBookState";
 import MyBookDetailModal from "../molecules/MyBookDetailModal";
-import { duration } from "@mui/material";
 
 type MyBookCardPops = {
     book: MyBook;
@@ -21,27 +19,23 @@ export const MyBookCard = ({
     width='150px',
     height='200px',
 }:MyBookCardPops) => {
-    const [image, setImage] = useState(imageNotFound);
+    const [image, setImage] = useState<string | string[]>(imageNotFound);
     const [readingState, setReadingState] = useState(book.stateId);
     const [isFavorite, setIsFavorite] = useState(book.favorite);
     const toast = useToast();
-    const isFirstTime = useRef(true);
+    const isPreventEdit = useRef(true);
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const options = STATES.state.map(state => {
-        return {name: state, id: STATES.id[state]}
+    const options = STATES.state.map((state, idx) => {
+        return {name: state, id: idx}
     });
 
-    const openToast = (text:string, status:string) => {
+    const openToast = (text:string, status:"success" | "error") => {
         toast({
             title: text,
             status: status,
             isClosable: true,
             duration: 1000,
         })
-    };
-    const getImageById = async () => {
-        const res = await getBookImage(book.ISBN);
-        setImage(res);
     };
     const handleEditBook = async () => {
         const res = await editBook(book.userId, book.bookId, readingState, isFavorite);
@@ -56,11 +50,14 @@ export const MyBookCard = ({
     };
 
     useEffect(() => {
-        getImageById();
-    },[]);
+        if(book.image) setImage(book.image);
+        setIsFavorite(book.favorite);
+        setReadingState(book.stateId);
+        isPreventEdit.current = true;
+    },[book]);
     useEffect(()=>{
-        if(isFirstTime.current){
-            isFirstTime.current = false;
+        if(isPreventEdit.current){
+            isPreventEdit.current = false;
             return;
         }
         handleEditBook();
@@ -68,14 +65,14 @@ export const MyBookCard = ({
 
     return (
         <>
-            <Box width={width} height={height} onClick={onOpen}>
+            <Box minW={width} maxW={width} height={height} onClick={onOpen}>
                 <Card w='100%' h='100%' variant='filled'>
                     <CardBody h='80%' p={1}>
-                        <Flex w='100%' h='90%' justify='center'>
-                            <Image objectFit='cover' src={image} />
+                        <Flex w='100%' h='85%' justify='center'>
+                            <Image objectFit='cover' src={image as string} />
                         </Flex>
-                        <Flex h='10%' justify='left' overflow='hidden'>
-                            <Text w='100%' fontSize='x-small'>{book.title}</Text>
+                        <Flex h='15%' justify='left' overflow='hidden'>
+                            <Text isTruncated w='100%' fontSize='small'>{book.title}</Text>
                         </Flex>
                     </CardBody>
                     <Divider/>

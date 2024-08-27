@@ -4,10 +4,37 @@ import { MyBook } from "../types/MyBook";
 import { CATEGORIES } from "../consts/Categories";
 import { STATES } from "../consts/States";
 
-export async function getBooks(userId: number, getBookImageFunc: any): Promise<MyBook[]>{
+export async function searchBooks(
+        userId: number,
+        isFavorite: boolean,
+        isReadingState: boolean[],
+        isCheckedCategories: boolean[],
+        getBookImageFunc: any,
+    ): Promise<MyBook[]>{
     let apiIsSuccess = true ;
+    const favorite: string = isFavorite ? '1' : '0 1';
+    const stateList: String[] = isReadingState.map((value, idx) => {
+        if(value){
+            return String(idx);
+        }else{
+            return '';
+        }
+    }).filter(value=>value!=='');
+    const state = stateList.length>0 ? stateList.join(' ') : null;
+    const categoryList: String[] = isCheckedCategories.map((value, idx) => {
+        if(value){
+            return String(idx);
+        }else{
+            return '';
+        }
+    }).filter(value=>value!='');
+    const category_id = categoryList.length>0 ? categoryList.join(' ') : null;
+
     const res: any = await axios.post(POST_BOOKS, {
         user_id: userId,
+        favorite: favorite,
+        state: state,
+        category_id: category_id,
     }, {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).catch(() => {
